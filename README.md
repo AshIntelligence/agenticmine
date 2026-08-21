@@ -1,45 +1,66 @@
 # Ash Baskaran — Agentic AI Builder Portfolio
 
-**Independent, runnable agent prototypes demonstrating hands-on depth in RAG/grounding, native tool use, multi-agent orchestration, evaluation, observability, reliability, and human-control boundaries.**
+Independent, runnable AI-system prototypes focused on **grounding, tool use, orchestration, evaluation, observability, reliability, and human-control boundaries**.
 
-[Public portfolio site](https://ashintelligence.github.io/agenticmine/) · [Run locally](RUN_ME_FIRST.md) · [Architecture](docs/ARCHITECTURE.md) · [Interview proof pack](docs/INTERVIEW_PROOF_PACK.md)
+[Run locally](RUN_ME_FIRST.md) · [Architecture](docs/ARCHITECTURE.md)
 
-> These are independent prototypes/product experiments, not claims of enterprise production deployment. The proof is in runnable code, visible system boundaries, traces, tests, and evals.
+> Public demo data in this repository is synthetic. The repo does not contain a resume, interview materials, or private career documents.
 
-## Proof at a glance
-
-| Signal | Proof |
-|---|---|
-| Runnable systems | **3** agent prototypes |
-| Behavioral evaluation | **4/4** golden cases passing |
-| Unit tests | **3/3** passing |
-| Grounding | Retrieval before synthesis + explicit evidence IDs |
-| Tool use | Native Claude client-tool loop in live mode |
-| Multi-agent orchestration | Discovery → Architecture → Evaluation → Red Team |
-| Observability | JSONL traces for meaningful agent steps |
-| Reliability | Deterministic mock mode for interview-safe demos |
-| Live model path | Anthropic Python SDK + `claude-sonnet-5` |
-
-## The three prototypes
+## Projects
 
 ### 1. Document Intelligence Agent
-Files → extraction → chunking → BM25 retrieval → evidence IDs → Claude synthesis → citation evaluation → JSONL trace.
 
-It can ingest TXT/MD/JSON/CSV and optionally PDF/DOCX, retrieve evidence before generation, preserve source IDs, compare documents, surface conflicting evidence, and evaluate citation coverage.
+```text
+Files → extraction → chunking → BM25 retrieval → evidence IDs
+      → synthesis → citation evaluation → JSONL trace
+```
 
-### 2. Research / Job Discovery Agent
-Search intent → candidate discovery → resume evidence → requirement matching → explicit gaps → query relevance + fit score → ranking → trace/eval.
+Capabilities:
+- ingest TXT / MD / JSON / CSV and optionally PDF / DOCX;
+- retrieve evidence before synthesis;
+- preserve source/chunk IDs;
+- compare documents and surface conflicting evidence;
+- evaluate citation coverage;
+- trace retrieval, synthesis, output, and latency.
 
-The design intentionally separates *fit* from *current search intent* so a generic role with broad overlap does not automatically outrank the user's actual target.
+### 2. Research & Ranking Agent
+
+```text
+Search intent → candidate discovery → profile evidence
+              → requirement matching → explicit gaps
+              → relevance + fit score → ranking → trace
+```
+
+The included profile and opportunity data are **synthetic examples** used only to demonstrate ranking, evidence matching, gap preservation, and scoring behavior.
 
 ### 3. Product / Technical Design Agent
-Brief → Discovery Agent → Architecture Agent → Evaluation Agent → Red-Team Agent → structured design → rollout gates → trace.
 
-The stages have different objectives and explicit boundaries. Consequential actions stay behind human approval points.
+```text
+Brief → Discovery Agent → Architecture Agent
+      → Evaluation Agent → Red-Team Agent
+      → structured design → rollout gates → trace
+```
+
+Capabilities:
+- decompose an ambiguous brief into users, hypotheses, journeys, and requirements;
+- propose retrieval, tool, state, and agent boundaries;
+- create an evaluation plan;
+- red-team permissions, grounding, prompt injection, tool failure, latency/cost, and over-agentization;
+- preserve human-review gates for consequential actions.
+
+## Shared principles
+
+- **Ground before generation.**
+- **Keep tool boundaries explicit.**
+- **Use structured stage outputs.**
+- **Evaluate behavior with golden cases.**
+- **Trace meaningful execution steps.**
+- **Use deterministic logic where it is safer.**
+- **Keep public demos reproducible and synthetic.**
 
 ## Run locally
 
-### Windows — easiest
+### Windows
 
 Double-click:
 
@@ -47,23 +68,32 @@ Double-click:
 run_windows.bat
 ```
 
-It creates a virtual environment, installs dependencies, sets deterministic mock mode, and launches Streamlit at:
+Or manually:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+$env:AGENT_MODE="mock"
+streamlit run app.py
+```
+
+Then open:
 
 ```text
 http://localhost:8501
 ```
 
-### Manual
+### macOS / Linux
 
 ```bash
 python -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
-streamlit run app.py
+AGENT_MODE=mock streamlit run app.py
 ```
 
-Set `AGENT_MODE=mock` for the interview-safe deterministic path.
-
-## Proof checks
+## Tests and evals
 
 ```bash
 python run_evals.py
@@ -77,7 +107,7 @@ Golden behavioral evals: 4/4 passing
 Unit tests: 3/3 passing
 ```
 
-## Live Claude mode
+## Optional live Claude mode
 
 ```bash
 AGENT_MODE=live
@@ -86,15 +116,8 @@ ANTHROPIC_MODEL=claude-sonnet-5
 streamlit run app.py
 ```
 
-Never commit an API key or a real `.streamlit/secrets.toml`.
+Never commit API keys or a real `.streamlit/secrets.toml`.
 
-## Public surfaces
+## Tech
 
-- GitHub: `AshIntelligence/agenticmine`
-- GitHub Pages: `https://ashintelligence.github.io/agenticmine/`
-- Streamlit Community Cloud entrypoint: `streamlit_app.py`
-- Interview fallback: local Streamlit via `run_windows.bat`
-
-## Defensible interview framing
-
-> I wanted hands-on intuition rather than being a TPM who only talks around AI systems, so I built inspectable prototypes myself. I can walk through the architecture, show where deterministic logic ends and model judgment begins, demonstrate native tool use, show failed eval cases and fixes, and explain reliability and human-control tradeoffs. These are independent prototypes—not enterprise production deployments.
+Python · Streamlit · Anthropic SDK · retrieval · tool calling · evals · JSONL traces
