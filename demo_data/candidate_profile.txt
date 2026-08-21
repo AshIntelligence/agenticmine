@@ -1,0 +1,7 @@
+Synthetic candidate profile for demonstration only.
+
+Technical program leader with experience in distributed systems, cloud platforms, reliability engineering, observability, incident response, API migrations, developer platforms, AI/ML infrastructure, and cross-functional delivery.
+
+Representative capabilities: service/API contracts, asynchronous processing, retries and dead-letter handling, telemetry, anomaly detection, phased migrations, release readiness, security controls, batch inference cost/latency tradeoffs, and platform modernization.
+
+This file contains fictionalized demo data and does not represent a real person's resume or employment history.
