@@ -11,10 +11,10 @@
       "expect_conflict": true
     }
   ],
-  "job_research": [
+  "research_ranking": [
     {
       "query": "infrastructure reliability distributed systems ai ml developer platform",
-      "expected_top_job_id": "anthropic-tpm-infra"
+      "expected_top_job_id": "ai-infra-tpm"
     }
   ],
   "product_design": [
