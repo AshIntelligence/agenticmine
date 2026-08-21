@@ -20,11 +20,11 @@ def demo_docs() -> None:
     print(f"\nTrace: {result.trace_path}")
 
 
-def demo_jobs() -> None:
-    resume = (ROOT / "demo_data/resume_excerpt.txt").read_text(encoding="utf-8")
-    agent = JobResearchAgent(ROOT / "demo_data/jobs.json", resume, trace_dir=ROOT / "traces")
+def demo_ranking() -> None:
+    profile = (ROOT / "demo_data/candidate_profile.txt").read_text(encoding="utf-8")
+    agent = JobResearchAgent(ROOT / "demo_data/jobs.json", profile, trace_dir=ROOT / "traces")
     ranked = agent.rank("infrastructure reliability distributed systems ai ml developer platform", top_k=3)
-    print("\n=== JOB RESEARCH ===")
+    print("\n=== RESEARCH & RANKING ===")
     for i, match in enumerate(ranked, 1):
         print(f"{i}. {match.job.title} — {match.job.company}: {match.score}%")
         print(f"   matched={match.matched_terms}")
@@ -42,13 +42,13 @@ def demo_product() -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Ash's Agentic AI Builder Portfolio")
-    parser.add_argument("demo", nargs="?", choices=["docs", "jobs", "product", "all"], default="all")
+    parser = argparse.ArgumentParser(description="Agentic AI Builder Portfolio")
+    parser.add_argument("demo", nargs="?", choices=["docs", "ranking", "product", "all"], default="all")
     args = parser.parse_args()
     if args.demo in {"docs", "all"}:
         demo_docs()
-    if args.demo in {"jobs", "all"}:
-        demo_jobs()
+    if args.demo in {"ranking", "all"}:
+        demo_ranking()
     if args.demo in {"product", "all"}:
         demo_product()
 
