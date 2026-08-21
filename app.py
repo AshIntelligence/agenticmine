@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import json
 import os
 import tempfile
 from dataclasses import asdict
@@ -16,7 +15,7 @@ ROOT = Path(__file__).resolve().parent
 
 st.set_page_config(page_title="Agentic AI Builder Portfolio", layout="wide")
 st.title("Agentic AI Builder Portfolio")
-st.caption("Three inspectable prototypes: document intelligence, job research, and product/technical design.")
+st.caption("Three inspectable prototypes: document intelligence, research/ranking, and product/technical design.")
 
 mode = st.sidebar.radio("Mode", ["mock", "live"], index=0)
 os.environ["AGENT_MODE"] = mode
@@ -26,7 +25,7 @@ if mode == "live":
     os.environ["ANTHROPIC_MODEL"] = st.session_state.model
 
 
-tab1, tab2, tab3, tab4 = st.tabs(["Document Intelligence", "Job Research", "Product Design", "Architecture / Proof"])
+tab1, tab2, tab3, tab4 = st.tabs(["Document Intelligence", "Research & Ranking", "Product Design", "Architecture / Proof"])
 
 with tab1:
     st.subheader("Document Intelligence Agent")
@@ -54,12 +53,16 @@ with tab1:
         st.caption(f"Trace: {result.trace_path}")
 
 with tab2:
-    st.subheader("Research / Job Discovery Agent")
-    st.write("Separates discovery, evidence extraction, fit scoring, gap analysis, and prioritization.")
-    resume_text = st.text_area("Resume evidence", (ROOT / "demo_data/resume_excerpt.txt").read_text(encoding="utf-8"), height=260)
-    query = st.text_input("Search intent", "infrastructure reliability distributed systems ai ml developer platform", key="jobq")
-    if st.button("Run job agent"):
-        agent = JobResearchAgent(ROOT / "demo_data/jobs.json", resume_text, trace_dir=ROOT / "traces")
+    st.subheader("Research & Ranking Agent")
+    st.write("Demonstrates discovery, evidence extraction, relevance scoring, gap analysis, and ranking using synthetic public demo data.")
+    profile_text = st.text_area(
+        "Synthetic candidate profile",
+        (ROOT / "demo_data/candidate_profile.txt").read_text(encoding="utf-8"),
+        height=240,
+    )
+    query = st.text_input("Search intent", "infrastructure reliability distributed systems ai ml developer platform", key="rankq")
+    if st.button("Run ranking agent"):
+        agent = JobResearchAgent(ROOT / "demo_data/jobs.json", profile_text, trace_dir=ROOT / "traces")
         matches = agent.rank(query, top_k=4)
         for m in matches:
             st.markdown(f"### {m.job.title} — {m.job.company} ({m.score}%)")
@@ -79,16 +82,16 @@ with tab3:
         st.caption(f"Trace: {design.trace_path}")
 
 with tab4:
-    st.subheader("What this proves")
+    st.subheader("System properties")
     st.markdown(
         """
 - **Grounding:** local retrieval before synthesis; evidence IDs remain inspectable.
 - **Agent decomposition:** product design uses discovery → architecture → evaluation → red-team stages.
-- **Tool-like boundaries:** job research separates discovery, evidence extraction, scoring, and prioritization.
+- **Explicit boundaries:** ranking separates discovery, evidence matching, scoring, and prioritization.
 - **Evaluation:** outputs are checked for citations, schema completeness, and expected ranking behavior.
-- **Observability:** every important step produces a JSONL trace with inputs, outputs, and latency.
+- **Observability:** important steps produce JSONL traces with inputs, outputs, and latency.
 - **Human control:** consequential product actions are explicitly modeled behind approval gates.
-- **Reliability:** deterministic mock mode supports repeatable demos when external APIs are unavailable.
+- **Reproducibility:** deterministic mock mode supports consistent public demos without external APIs.
         """
     )
     st.code("python demo.py all\n# or\nstreamlit run app.py", language="bash")
