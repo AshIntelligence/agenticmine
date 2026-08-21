@@ -1,0 +1,30 @@
+[
+  {
+    "id": "anthropic-tpm-infra",
+    "title": "Technical Program Manager, Infrastructure",
+    "company": "Anthropic",
+    "location": "San Francisco / New York / Seattle",
+    "description": "Drive infrastructure programs spanning developer productivity and tooling, CI/CD and release processes, large-scale migrations, platform modernization, reliability targets, incident response improvements, observability, capacity utilization, and coordination across infrastructure, research, engineering, and product. Strong distributed systems or AI/ML infrastructure experience, cloud platforms, security, and technical depth are valued."
+  },
+  {
+    "id": "cloud-platform-tpm",
+    "title": "Principal Technical Program Manager, Cloud Platform",
+    "company": "Example Cloud Co",
+    "location": "Seattle",
+    "description": "Lead distributed systems modernization, API migrations, reliability, service ownership, observability, capacity planning, and incident response across a large cloud platform. Partner with engineering leaders and drive cross-functional technical programs."
+  },
+  {
+    "id": "enterprise-workflow-pm",
+    "title": "Principal Product Manager, Enterprise Workflow",
+    "company": "Example SaaS Co",
+    "location": "Remote",
+    "description": "Own workflow automation, enterprise SaaS user journeys, product strategy, analytics, adoption, customer discovery, and business process automation. Coordinate product, design, and engineering."
+  },
+  {
+    "id": "ai-evals-pm",
+    "title": "Principal Product Manager, AI Evaluation Platform",
+    "company": "Example AI Lab",
+    "location": "San Francisco",
+    "description": "Build AI/ML evaluation and observability products, model telemetry, RAG quality measurement, developer platform capabilities, APIs, experimentation systems, reliability, and governance for internal AI teams."
+  }
+]

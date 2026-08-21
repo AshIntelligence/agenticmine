@@ -1,0 +1,38 @@
+{
+  "document_intelligence": [
+    {
+      "case": "What availability target do the two documents specify?",
+      "passed": true,
+      "hits": [
+        "99.9",
+        "99.95"
+      ]
+    },
+    {
+      "case": "What are the postmortem timing expectations?",
+      "passed": true,
+      "hits": [
+        "five business days",
+        "three business days"
+      ]
+    }
+  ],
+  "job_research": [
+    {
+      "case": "infrastructure reliability distributed systems ai ml developer platform",
+      "passed": true,
+      "top": "anthropic-tpm-infra"
+    }
+  ],
+  "product_design": [
+    {
+      "case": "schema completeness",
+      "passed": true,
+      "missing": []
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "total": 4
+  }
+}
