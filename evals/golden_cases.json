@@ -1,0 +1,26 @@
+{
+  "document_intelligence": [
+    {
+      "question": "What availability target do the two documents specify?",
+      "expected_terms": ["99.9", "99.95"],
+      "expect_conflict": true
+    },
+    {
+      "question": "What are the postmortem timing expectations?",
+      "expected_terms": ["five business days", "three business days"],
+      "expect_conflict": true
+    }
+  ],
+  "job_research": [
+    {
+      "query": "infrastructure reliability distributed systems ai ml developer platform",
+      "expected_top_job_id": "anthropic-tpm-infra"
+    }
+  ],
+  "product_design": [
+    {
+      "brief_file": "demo_data/product_brief.txt",
+      "required_sections": ["problem", "users", "requirements", "architecture", "risks", "human_review_points", "eval_plan", "rollout"]
+    }
+  ]
+}

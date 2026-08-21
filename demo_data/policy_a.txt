@@ -1,0 +1,5 @@
+Infrastructure Reliability Policy A
+
+Production services must target 99.9% monthly availability. P1 incidents require an incident commander within 10 minutes and a written post-incident review within five business days. The SRE team owns the reliability scorecard, while service teams own remediation actions. High-risk automated remediation requires human approval before execution.
+
+Capacity reviews occur monthly. Teams should monitor utilization, saturation, latency, error rate, and queue depth. A service that exceeds 80% sustained capacity for seven days must open a capacity action item.
