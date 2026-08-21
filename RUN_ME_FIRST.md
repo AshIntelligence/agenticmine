@@ -1,13 +1,13 @@
-# Run the portfolio locally — fastest path
+# Run the portfolio locally
 
-## Windows: double-click
+## Windows: fastest path
 
 1. Clone or download this repository.
-2. Make sure Python 3.11 or 3.12 is installed and **Add Python to PATH** was checked during installation.
+2. Install Python 3.11 or 3.12 and enable **Add Python to PATH**.
 3. Double-click **`run_windows.bat`**.
-4. The first run creates `.venv`, installs dependencies, and opens the demo at **http://localhost:8501**.
+4. The launcher creates `.venv`, installs dependencies, uses deterministic mock mode, and opens **http://localhost:8501**.
 
-The launcher intentionally uses **mock mode**. The orchestration, retrieval, scoring, evals, traces, and UI execute for real; only the external model response is deterministic so an interview demo cannot fail because of Wi‑Fi, an API key, or billing.
+Mock mode keeps the orchestration, retrieval, scoring, evals, traces, and UI real while making model output deterministic and reproducible.
 
 ## PowerShell alternative
 
@@ -28,7 +28,7 @@ streamlit run app.py
 
 Then open **http://localhost:8501**.
 
-## Run proof checks
+## Run tests and evals
 
 ```powershell
 python run_evals.py
