@@ -1,0 +1,5 @@
+Infrastructure Operations Handbook B
+
+Tier-1 production services are expected to maintain 99.95% monthly availability. For severe incidents, the designated incident lead should be assigned within 15 minutes. Postmortems are expected within three business days and should include contributing factors, blast radius, detection gaps, and corrective actions.
+
+Automated remediation may execute without approval only for pre-authorized reversible actions. Capacity reviews are held every two weeks for critical services, with dashboards covering CPU/GPU utilization where applicable, latency, error rate, saturation, and queue health.
