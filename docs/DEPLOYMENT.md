@@ -1,26 +1,11 @@
-# Publish the portfolio
+# Deployment notes
 
-Target repository: **https://github.com/AshIntelligence/agenticmine**
+## GitHub Pages
 
-## Static portfolio site with GitHub Pages
+The `docs/` folder is the static Ash Intelligence index. `.github/workflows/pages.yml` publishes it from `main` whenever the site files change.
 
-The `docs/` folder contains a self-contained static portfolio and `.github/workflows/pages.yml` deploys it.
+## Interactive app
 
-1. Open **Settings → Pages**.
-2. Set **Source** to **GitHub Actions** once.
-3. Push to `main`.
+The Streamlit app runs from `app.py` (or `streamlit_app.py` as the Community Cloud entrypoint). Use `AGENT_MODE=mock` for deterministic local behavior; live mode requires `ANTHROPIC_API_KEY` in the environment.
 
-Expected URL: **https://ashintelligence.github.io/agenticmine/**
-
-## Deploy the real Streamlit app
-
-The repository contains `streamlit_app.py`, `requirements.txt`, and `.streamlit/config.toml`.
-
-1. Sign in to Streamlit Community Cloud with GitHub.
-2. Choose **Create app**.
-3. Repository: **AshIntelligence/agenticmine**.
-4. Branch: `main`.
-5. App file: `streamlit_app.py`.
-6. Deploy.
-
-Keep the public deployment in default mock mode. For a private live-Claude version, store `ANTHROPIC_API_KEY` in Streamlit Secrets, never in the repository.
+Secrets stay outside the repository.

@@ -1,4 +1,4 @@
-name: Portfolio tests
+name: Lab checks
 
 on:
   push:
@@ -15,11 +15,11 @@ jobs:
           python-version: "3.12"
           cache: pip
       - run: pip install -r requirements.txt
-      - name: Existing unit tests
+      - name: Unit tests
         run: pytest -q
-      - name: Existing golden behavioral evals
+      - name: Behavioral evals
         env:
           AGENT_MODE: mock
         run: python run_evals.py
-      - name: Run 20-project showcase
-        run: python tools/run_showcase.py
+      - name: Project checks
+        run: python tools/run_lab.py

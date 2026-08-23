@@ -42,16 +42,11 @@ def demo_product() -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Agentic AI Builder Portfolio")
+    parser = argparse.ArgumentParser(description="Ash Intelligence Lab")
     parser.add_argument("demo", nargs="?", choices=["docs", "ranking", "product", "all"], default="all")
     args = parser.parse_args()
-    if args.demo in {"docs", "all"}:
-        demo_docs()
-    if args.demo in {"ranking", "all"}:
-        demo_ranking()
-    if args.demo in {"product", "all"}:
-        demo_product()
+    if args.demo in {"docs", "all"}: demo_docs()
+    if args.demo in {"ranking", "all"}: demo_ranking()
+    if args.demo in {"product", "all"}: demo_product()
 
-
-if __name__ == "__main__":
-    main()
+if __name__ == "__main__": main()

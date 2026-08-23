@@ -1,101 +1,80 @@
-# Ash Intelligence — AI Product Systems Lab
+# Ash Intelligence — Product & AI Systems
 
-[![Portfolio tests](https://github.com/AshIntelligence/agenticmine/actions/workflows/tests.yml/badge.svg)](https://github.com/AshIntelligence/agenticmine/actions/workflows/tests.yml)
+[![Lab checks](https://github.com/AshIntelligence/agenticmine/actions/workflows/tests.yml/badge.svg)](https://github.com/AshIntelligence/agenticmine/actions/workflows/tests.yml)
 
-> **20 runnable product / AI systems** across agents, evaluation, fintech, risk, observability, product discovery and product design.
+Ash Intelligence is where I work through product and architecture questions in code — agent boundaries, retrieval quality, evaluation, permissions, workflow state, fintech decisioning, observability and product discovery.
 
-I’m **Ash Baskaran**, a Product & Technology Leader. I built this lab to make my product thinking inspectable in code: not just *what* I would build, but **where I draw system boundaries, when I use an agent, what I measure, what I keep deterministic, and where I require human control**.
+Most of the systems are intentionally small enough to inspect end to end. I care about the mechanics around the model as much as the model itself: what stays deterministic, where evidence is required, when a human enters the loop, how the system fails, and what I would measure before expanding autonomy.
 
-**Portfolio:** https://ashbaskaran.netlify.app/ · **LinkedIn:** https://www.linkedin.com/in/ashb27 · **GitHub Pages:** https://ashintelligence.github.io/agenticmine/
+**Portfolio:** https://ashbaskaran.netlify.app/ · **LinkedIn:** https://www.linkedin.com/in/ashb27 · **Lab site:** https://ashintelligence.github.io/agenticmine/
 
-## Start here
+## Agent architecture & control
 
-```bash
-python tools/run_showcase.py
-```
+- [Agent vs Workflow Router](projects/agent-vs-workflow-router/) — chooses deterministic, assisted or autonomous behavior from variability, consequence and state.
+- [Human-in-the-Loop Risk Router](projects/human-in-loop-risk-router/) — maps consequence, confidence, reversibility and sensitivity to `ALLOW / REVIEW / DENY`.
+- [Agent Tool Permission Policy](projects/tool-permission-policy-engine/) — role-aware tool policy with approval and audit boundaries.
+- [Agentic Product Control Plane](projects/agentic-product-control-plane/) — eval gates, tool policy, cost budgets and rollout state in one control surface.
+- [Finance Close Orchestrator](projects/finance-close-orchestrator/) — dependency-bound specialist stages, exceptions and controller approval.
 
-That runs a demo and self-test for all 20 projects. The showcase projects use only the Python standard library and synthetic data, so they are reproducible without API keys.
+## Evaluation, retrieval & evidence
 
-The repository’s original Streamlit / Anthropic agent demo remains available separately in the existing `app.py`, `agents/`, `core/`, and `evals/` structure.
+- [MAUTAM AI Product Evaluation](projects/mautam-eval-lab/) — model quality, adoption, workflow success, trust, health and measurable impact.
+- [Grounded RAG Quality Gate](projects/rag-quality-gate/) — evidence coverage and citation checks before answer release.
+- [Retrieval Evaluation Benchmark](projects/retrieval-eval-benchmark/) — Precision@K, Recall@K, MRR and nDCG.
+- [Customer Support Knowledge OS](projects/support-knowledge-os/) — answer with evidence or escalate.
+- Document intelligence and source-grounded comparison also live under [`agents/`](agents/).
 
-## 20 projects
+## Fintech, risk & reliability
 
-| # | Project | Product / architecture lens |
-|---:|---|---|
-| 01 | [MAUTAM AI Product Evaluation Lab](projects/01-mautam-eval-lab/) | AI evaluation → **SHIP / TUNE / SIMPLIFY / STOP** |
-| 02 | [Agent vs Workflow Router](projects/02-agent-vs-workflow-router/) | Deterministic vs assisted vs autonomous agent |
-| 03 | [Grounded RAG Quality Gate](projects/03-rag-quality-gate/) | Evidence coverage, citations, contradiction fallback |
-| 04 | [Human-in-the-Loop Risk Router](projects/04-human-in-loop-risk-router/) | Consequence + confidence + reversibility → allow/review/deny |
-| 05 | [Multi-Agent Finance Close Orchestrator](projects/05-finance-close-orchestrator/) | Specialist agents, dependencies, exceptions, human checkpoint |
-| 06 | [Payment Provider Onboarding Simulator](projects/06-payment-provider-onboarding/) | Reusable provider contracts + regional launch gates |
-| 07 | [Fraud Signal Decision Engine](projects/07-fraud-signal-decision-engine/) | Explainable risk decisioning and review boundaries |
-| 08 | [Billing Reconciliation Observatory](projects/08-billing-reconciliation-observatory/) | Usage → rating → invoice end-to-end correctness |
-| 09 | [Incident Triage Agent](projects/09-incident-triage-agent/) | Severity, ownership and next-action routing |
-| 10 | [Voice of Customer Synthesis Studio](projects/10-voc-synthesis-studio/) | Qualitative sentiment + quantitative usage evidence |
-| 11 | [PRFAQ Product Spec Agent](projects/11-prfaq-product-spec-agent/) | Product brief → users, promise, metrics, risks, questions |
-| 12 | [Evidence-Weighted Prioritization Engine](projects/12-product-prioritization-engine/) | Impact + evidence − effort/dependencies/control burden |
-| 13 | [Experiment Analysis Copilot](projects/13-experiment-analysis-copilot/) | Uplift, significance and product decision |
-| 14 | [Telemetry Anomaly → Product Action](projects/14-telemetry-anomaly-to-action/) | Anomaly detection that ends in an action, not a red chart |
-| 15 | [Retrieval Evaluation Benchmark](projects/15-retrieval-eval-benchmark/) | Precision@K, Recall@K, MRR, nDCG |
-| 16 | [Agent Tool Permission Policy Engine](projects/16-tool-permission-policy-engine/) | Role, sensitivity, tool action, approval and audit |
-| 17 | [LinkedIn Career Discovery Redesign](projects/17-linkedin-career-discovery-redesign/) | Career fit over raw engagement — independent product exercise |
-| 18 | [Instagram Intentional Discovery](projects/18-instagram-intentional-discovery/) | Relevance + novelty + diversity + time budget — independent exercise |
-| 19 | [Customer Support Knowledge OS](projects/19-support-knowledge-os/) | Answer with evidence or explicitly escalate |
-| 20 | [Agentic Product Control Plane](projects/20-agentic-product-control-plane/) | Agent registry, eval gates, cost budgets and rollout control |
+- [Payment Provider Onboarding](projects/payment-provider-onboarding/)
+- [Fraud Signal Decision Engine](projects/fraud-signal-decision-engine/)
+- [Billing Reconciliation Observatory](projects/billing-reconciliation-observatory/)
+- [Incident Triage Agent](projects/incident-triage-agent/)
+- [Telemetry Anomaly → Product Action](projects/telemetry-anomaly-to-action/)
 
-## Architecture principles across the lab
+## Product discovery & decision systems
 
-### 1. Agentic only when the problem earns it
-Variability and ambiguity can justify agency. High consequence reduces autonomy. Some of the strongest AI product decisions are **not** to use an autonomous agent.
+- [Voice of Customer Synthesis](projects/voc-synthesis-studio/)
+- [PRFAQ Product Spec Agent](projects/prfaq-product-spec-agent/)
+- [Evidence-Weighted Product Prioritization](projects/product-prioritization-engine/)
+- [Experiment Analysis Copilot](projects/experiment-analysis-copilot/)
 
-### 2. Deterministic shell, probabilistic center
-Permissions, routing, state, budgets, audit and rollout gates should be inspectable even when a model sits in the middle.
+## Product studies
 
-### 3. Human review is a product state
-`REVIEW` is designed into the state machine for consequential actions. It is not a vague safety disclaimer.
+- [Career Discovery Ranking Study](projects/linkedin-career-discovery/) — a personal product study using LinkedIn career discovery as the surface; unaffiliated with LinkedIn.
+- [Intentional Discovery Study](projects/instagram-intentional-discovery/) — a personal recommender study using Instagram as the surface; unaffiliated with Instagram.
 
-### 4. Ground before generation
-A system should be able to say **I do not have enough evidence**. RAG quality is a release criterion, not decoration.
+## How I build here
 
-### 5. Evals should reach the user workflow
-Model quality alone is incomplete. MAUTAM connects model / response quality to adoption, workflow success, trust, operational health and measurable impact.
+**Agentic only when the problem earns it.** Variability and ambiguity can justify agency; consequence reduces autonomy.
 
-### 6. Telemetry should change a decision
-I care less about dashboards than about whether a signal changes rollout, prioritization, investigation, or the product mechanism itself.
+**Deterministic shell, probabilistic center.** Permissions, routing, state, budgets, audit and rollout gates stay inspectable even when a model sits in the middle.
 
-## Reviewer shortcut — 5 projects to inspect first
+**Human review is a state, not a disclaimer.** Consequential actions have explicit review and approval paths.
 
-If you only have a few minutes:
+**Ground before generation.** If evidence is weak, the system should be able to stop or escalate.
 
-1. **01 MAUTAM** — my AI-product evaluation philosophy in executable form.
-2. **02 Agent vs Workflow Router** — demonstrates mechanism judgment rather than agent hype.
-3. **05 Finance Close Orchestrator** — multi-agent workflow + explicit human control.
-4. **16 Tool Permission Policy Engine** — product architecture for safe tool use.
-5. **20 Agentic Product Control Plane** — evals, tools, cost and rollout in one platform abstraction.
+**Evals reach the workflow.** Model quality matters, but so do completion, adoption, trust, operational health and impact.
 
-For product sense, inspect **17 LinkedIn Career Discovery** and **18 Instagram Intentional Discovery**.
+**Telemetry should change a decision.** Signals are useful when they alter rollout, prioritization, investigation or the product mechanism.
 
-## Run / verify
-
-Run every demo and test:
+## Run the lab
 
 ```bash
-python tools/run_showcase.py
+python tools/run_lab.py
 ```
 
-Run a single project:
+Each project has a local demo and a self-check. The Streamlit / Anthropic app remains in `app.py`, `agents/`, `core/` and `evals/`.
+
+Run one system directly, for example:
 
 ```bash
-python projects/01-mautam-eval-lab/main.py
-python projects/01-mautam-eval-lab/main.py --test
+python projects/mautam-eval-lab/main.py
+python projects/mautam-eval-lab/main.py --test
 ```
 
-GitHub Actions also runs the original repository tests/evals plus all 20 showcase self-tests.
+## Data
 
-## Public-data boundary
+Everything under `projects/` uses synthetic inputs. I do not publish employer or customer confidential data here.
 
-All examples in `projects/` are **synthetic independent prototypes**. They do not contain confidential employer data. The LinkedIn and Instagram projects are independent product exercises and do not imply affiliation or endorsement.
-
----
-
-**AI can mean a lot of things. Around here, it also means Ash Intelligence.**
+The LinkedIn and Instagram studies are independent explorations and do not imply affiliation or endorsement.

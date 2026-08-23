@@ -13,9 +13,9 @@ from agents.product_design import ProductDesignAgent
 
 ROOT = Path(__file__).resolve().parent
 
-st.set_page_config(page_title="Agentic AI Builder Portfolio", layout="wide")
-st.title("Agentic AI Builder Portfolio")
-st.caption("Three inspectable prototypes: document intelligence, research/ranking, and product/technical design.")
+st.set_page_config(page_title="Ash Intelligence Lab", layout="wide")
+st.title("Ash Intelligence Lab")
+st.caption("Document intelligence, research and ranking, and product / technical design.")
 
 mode = st.sidebar.radio("Mode", ["mock", "live"], index=0)
 os.environ["AGENT_MODE"] = mode
@@ -25,7 +25,7 @@ if mode == "live":
     os.environ["ANTHROPIC_MODEL"] = st.session_state.model
 
 
-tab1, tab2, tab3, tab4 = st.tabs(["Document Intelligence", "Research & Ranking", "Product Design", "Architecture / Proof"])
+tab1, tab2, tab3, tab4 = st.tabs(["Document Intelligence", "Research & Ranking", "Product Design", "Architecture"])
 
 with tab1:
     st.subheader("Document Intelligence Agent")
@@ -54,12 +54,8 @@ with tab1:
 
 with tab2:
     st.subheader("Research & Ranking Agent")
-    st.write("Demonstrates discovery, evidence extraction, relevance scoring, gap analysis, and ranking using synthetic public demo data.")
-    profile_text = st.text_area(
-        "Synthetic candidate profile",
-        (ROOT / "demo_data/candidate_profile.txt").read_text(encoding="utf-8"),
-        height=240,
-    )
+    st.write("Discovery, evidence matching, relevance scoring, gap analysis and ranking over a synthetic local corpus.")
+    profile_text = st.text_area("Synthetic candidate profile",(ROOT / "demo_data/candidate_profile.txt").read_text(encoding="utf-8"),height=240)
     query = st.text_input("Search intent", "infrastructure reliability distributed systems ai ml developer platform", key="rankq")
     if st.button("Run ranking agent"):
         agent = JobResearchAgent(ROOT / "demo_data/jobs.json", profile_text, trace_dir=ROOT / "traces")
@@ -83,15 +79,13 @@ with tab3:
 
 with tab4:
     st.subheader("System properties")
-    st.markdown(
-        """
+    st.markdown("""
 - **Grounding:** local retrieval before synthesis; evidence IDs remain inspectable.
 - **Agent decomposition:** product design uses discovery → architecture → evaluation → red-team stages.
 - **Explicit boundaries:** ranking separates discovery, evidence matching, scoring, and prioritization.
 - **Evaluation:** outputs are checked for citations, schema completeness, and expected ranking behavior.
 - **Observability:** important steps produce JSONL traces with inputs, outputs, and latency.
-- **Human control:** consequential product actions are explicitly modeled behind approval gates.
-- **Reproducibility:** deterministic mock mode supports consistent public demos without external APIs.
-        """
-    )
+- **Human control:** consequential product actions are modeled behind approval gates.
+- **Reproducibility:** deterministic mock mode supports consistent local runs without external APIs.
+""")
     st.code("python demo.py all\n# or\nstreamlit run app.py", language="bash")

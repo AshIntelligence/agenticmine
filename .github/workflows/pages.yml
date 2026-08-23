@@ -1,4 +1,4 @@
-name: Deploy portfolio site to GitHub Pages
+name: Deploy Ash Intelligence site
 
 on:
   push:
@@ -28,10 +28,10 @@ jobs:
         uses: actions/checkout@v6
       - name: Configure Pages
         uses: actions/configure-pages@v5
-      - name: Upload static site
+      - name: Upload site
         uses: actions/upload-pages-artifact@v4
         with:
           path: docs
-      - name: Deploy to GitHub Pages
+      - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
