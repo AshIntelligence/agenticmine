@@ -56,17 +56,63 @@ class JobResearchAgent:
             return jobs
 
     @staticmethod
-    def _tokens(text: str) -> set[str]:
-        return {t.lower() for t in re.findall(r"[A-Za-z][A-Za-z0-9/+.-]+", text)}
+    def _terms(text: str) -> list[str]:
+        """Normalize lexical intent without pretending unrelated phrases are semantic matches.
+
+        Slash-separated terms such as AI/ML become two searchable terms. A light plural
+        normalizer maps platforms→platform, systems→system, APIs→api, etc. We keep the
+        representation intentionally transparent because this demo is about inspectable
+        ranking behavior rather than opaque embedding similarity.
+        """
+        text = text.lower().replace("/", " ")
+        raw = re.findall(r"[a-z][a-z0-9+.-]*", text)
+        normalized: list[str] = []
+        for token in raw:
+            if len(token) > 4 and token.endswith("ies"):
+                token = token[:-3] + "y"
+            elif len(token) > 3 and token.endswith("s") and not token.endswith("ss"):
+                token = token[:-1]
+            normalized.append(token)
+        return normalized
+
+    @classmethod
+    def _tokens(cls, text: str) -> set[str]:
+        return set(cls._terms(text))
+
+    def _intent_relevance(self, query: str, job: JobCandidate) -> float:
+        """Corpus-aware lexical relevance with extra weight for explicit title intent.
+
+        IDF prevents generic words from dominating and title weighting distinguishes an
+        explicitly requested "AI Infrastructure" role from a role that only happens to
+        mention generic terms such as "systems" in its body.
+        """
+        q_terms = set(self._terms(query))
+        if not q_terms:
+            return 0.0
+
+        corpus = [
+            set(self._terms(f"{candidate.title} {candidate.description}"))
+            for candidate in self.jobs
+        ]
+        n = len(corpus)
+        idf = {
+            term: math.log((n + 1) / (1 + sum(term in doc for doc in corpus))) + 1
+            for term in q_terms
+        }
+
+        title_terms = set(self._terms(job.title))
+        body_terms = set(self._terms(job.description))
+        weighted_hits = sum(
+            idf[term]
+            * (2.5 * (term in title_terms) + 1.0 * (term in body_terms))
+            for term in q_terms
+        )
+        max_weight = sum(idf[term] * 3.5 for term in q_terms)
+        return weighted_hits / max(1e-9, max_weight)
 
     def discover(self, query: str, top_k: int = 5) -> list[JobCandidate]:
         with traced_step(self.logger, "discover", {"query": query, "top_k": top_k}) as trace:
-            q = self._tokens(query)
-            scored = []
-            for job in self.jobs:
-                hay = self._tokens(f"{job.title} {job.company} {job.description}")
-                score = len(q & hay) / max(1, len(q))
-                scored.append((score, job))
+            scored = [(self._intent_relevance(query, job), job) for job in self.jobs]
             results = [j for _, j in sorted(scored, key=lambda x: x[0], reverse=True)[:top_k]]
             trace.set_output([asdict(j) for j in results])
             return results
@@ -148,15 +194,13 @@ class JobResearchAgent:
 
     def rank(self, query: str, top_k: int = 5) -> list[JobMatch]:
         discovered = self.discover(query, top_k=max(top_k, 8))
-        q = self._tokens(query)
         matches = []
         for job in discovered:
             match = self.analyze(job)
-            hay = self._tokens(f"{job.title} {job.description}")
-            query_relevance = len(q & hay) / max(1, len(q))
+            query_relevance = self._intent_relevance(query, job)
             combined = round(0.5 * match.score + 50 * query_relevance, 1)
             match.score = combined
-            match.rationale += f" Combined score includes {query_relevance:.0%} query-intent overlap."
+            match.rationale += f" Combined score includes {query_relevance:.0%} corpus-aware query-intent relevance."
             matches.append(match)
         ranked = sorted(matches, key=lambda x: x.score, reverse=True)[:top_k]
         eval_result = keyword_coverage(

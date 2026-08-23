@@ -15,9 +15,11 @@ jobs:
           python-version: "3.12"
           cache: pip
       - run: pip install -r requirements.txt
-      - name: Unit tests
+      - name: Existing unit tests
         run: pytest -q
-      - name: Golden behavioral evals
+      - name: Existing golden behavioral evals
         env:
           AGENT_MODE: mock
         run: python run_evals.py
+      - name: Run 20-project showcase
+        run: python tools/run_showcase.py
