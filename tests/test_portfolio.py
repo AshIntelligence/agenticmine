@@ -1,4 +1,7 @@
+import os
 from pathlib import Path
+import subprocess
+import sys
 
 from agents.document_intelligence import DocumentIntelligenceAgent
 from agents.job_research import JobResearchAgent
@@ -29,3 +32,17 @@ def test_product_agent_has_human_review():
     design = ProductDesignAgent(trace_dir=ROOT / "traces").design(brief)
     assert design.human_review_points
     assert design.eval_plan
+
+
+def test_native_tool_demo_executes_in_mock_mode():
+    env = os.environ.copy()
+    env["AGENT_MODE"] = "mock"
+    result = subprocess.run(
+        [sys.executable, str(ROOT / "tool_demo.py")],
+        cwd=ROOT,
+        env=env,
+        text=True,
+        capture_output=True,
+    )
+    assert result.returncode == 0, result.stderr
+    assert "MOCK TOOL MODE" in result.stdout
