@@ -6,7 +6,7 @@ Ash Intelligence is where I work through product and architecture questions in c
 
 Most of the systems are intentionally small enough to inspect end to end. I care about the mechanics around the model as much as the model itself: what stays deterministic, where evidence is required, when a human enters the loop, how the system fails, and what I would measure before expanding autonomy.
 
-**[Live control-plane demo](https://ashintelligence.github.io/agenticmine/control-plane-demo.html)** · **[Lab site](https://ashintelligence.github.io/agenticmine/)** · **[Active roadmap](https://github.com/AshIntelligence/agenticmine/issues)** · **[Portfolio](https://ashbaskaran.netlify.app/)** · **[LinkedIn](https://www.linkedin.com/in/ashb27)**
+**[Active roadmap](https://github.com/AshIntelligence/agenticmine/issues)** · **[Portfolio](https://ashbaskaran.netlify.app/)** · **[LinkedIn](https://www.linkedin.com/in/ashb27)**
 
 ## Flagship systems
 
@@ -20,11 +20,11 @@ MAUTAM connects model and response quality to adoption, user-workflow success, t
 
 ### Agentic Product Control Plane
 
-[![Agentic Product Control Plane](docs/assets/control-plane.svg)](https://ashintelligence.github.io/agenticmine/control-plane-demo.html)
+[![Agentic Product Control Plane](docs/assets/control-plane.svg)](projects/agentic-product-control-plane/)
 
 A control surface for agent registry, evaluation gates, tool permissions, cost budgets and rollout state. The point is to make the operating system around an agent inspectable instead of treating the model call as the architecture.
 
-**[Try the live demo →](https://ashintelligence.github.io/agenticmine/control-plane-demo.html)** · **[Code + architecture →](projects/agentic-product-control-plane/)**
+**[Code + architecture →](projects/agentic-product-control-plane/)** · **[Interactive UI source →](docs/control-plane-demo.html)**
 
 ### Risk Decision System
 
