@@ -1,35 +1,23 @@
-# Multi-Agent Finance Close Orchestrator
+# Finance Close Orchestrator
 
-**Multi-Agent Systems · runnable synthetic prototype**
+`Python · multi-agent workflow · fintech`
 
-A dependency-aware close workflow with specialist agents for Accounts Payable, Accounts Receivable, Treasury, reconciliation and General Ledger — plus a **human controller checkpoint** before the close is considered complete.
+Finance close is a useful place to model agents as workflow actors rather than chat personas. I represented AP, AR, Treasury, reconciliation and GL as dependency-bound stages, with a controller approval before completion.
 
 ## Architecture
 
 ```mermaid
 flowchart LR
-  AP[AP Agent] --> R[Reconciliation Agent]
-  AR[AR Agent] --> R
-  TR[Treasury Agent] --> R
-  R --> GL[GL Agent]
-  GL --> H[Human Controller]
-  R --> X[Exception queue]
-  X --> R
+  AP[AP agent] --> R[Reconciliation]
+  AR[AR agent] --> R
+  T[Treasury agent] --> R
+  R --> GL[GL agent]
+  GL --> H[Controller approval]
+  R -. exception .-> E[Exception queue]
+  E -. resolve .-> R
 ```
 
-The demo is intentionally a **state/dependency orchestrator**, not five chatbots pretending to collaborate.
-
-## Example state
-
-After AP, AR and cash-position tasks complete:
-
-```text
-reconcile            → EXCEPTION: cash mismatch > tolerance
-gl-close             → BLOCKED by reconcile
-controller-approval  → BLOCKED by gl-close
-```
-
-This is the behavior I want from a real agentic workflow: downstream work does not continue just because an LLM can generate the next sentence.
+The orchestration is built around **state, dependencies and exceptions** rather than free-form agent conversation. A downstream stage cannot advance until its dependency state is satisfied; exceptions remain visible to the controller.
 
 ## Run
 
@@ -38,30 +26,17 @@ python main.py
 python main.py --test
 ```
 
-## Product / architecture decisions
+## Design choices
 
-- specialist boundaries follow real workflow/accountability boundaries
-- dependencies are explicit rather than hidden in prompts
-- exceptions are first-class states
-- consequential close completion retains human approval
-- blocked work is visible rather than silently retried forever
+- specialist ownership is explicit
+- dependency state is deterministic
+- exceptions do not disappear into a generated summary
+- final completion remains a human-controlled state
 
-## Production metrics
+## Signals
 
-- close cycle time
-- exception aging and re-open rate
-- automated vs reviewed completion
-- reconciliation quality
-- number of blocked downstream tasks prevented from executing
-- time spent at each human checkpoint
+Close-cycle time, exception aging, reconciliation mismatch rate, manual touches, approval latency and reopen rate.
 
-## Production evolution
+## Next
 
-- durable state store + idempotency keys
-- ERP / data tools behind permissioned tool contracts
-- timeout, retry and dead-letter semantics per task
-- event-driven orchestration and replay
-- audit trail connecting agent action → evidence → human approval
-- MAUTAM evals on workflow completion, trust and business impact
-
-**Product thesis:** multi-agent architecture is useful when it mirrors a real multi-stage workflow. Agent count by itself is not sophistication.
+Persist workflow state, add idempotent task execution, event-driven retries, evidence attachments and role-based approval policy.

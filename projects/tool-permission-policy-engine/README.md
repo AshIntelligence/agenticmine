@@ -1,12 +1,16 @@
-# Agent Tool Permission Policy Engine
+# Agent Tool Permission Policy
 
-**Agent Safety / Platform · runnable synthetic prototype**
+`Python · agent safety · platform`
 
-Evaluates agent tool calls against role, action type, data sensitivity and approval state.
+This evaluates a tool call against **role, action type, data sensitivity and approval state**.
+
+API scopes are not enough for product-level agent control. A refund, export or deletion can require different approval and reversibility rules even when the same service account technically has access.
+
+## Run
 
 ```bash
 python main.py
 python main.py --test
 ```
 
-**Product point:** tool permissions need product semantics, not only API scopes. Consequential actions should be approved, auditable and reversible where possible.
+I would put this policy boundary between planning and tool execution, version every policy decision and attach the result to the audit trace.

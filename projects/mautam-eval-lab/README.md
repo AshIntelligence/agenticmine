@@ -1,8 +1,8 @@
-# MAUTAM AI Product Evaluation Lab
+# MAUTAM AI Product Evaluation
 
-**AI Evaluation · runnable synthetic prototype**
+`Python · AI evaluation · release gates`
 
-MAUTAM turns six product-level lenses into a release decision: **SHIP / TUNE / SIMPLIFY / STOP**.
+MAUTAM is the scorecard I use to connect model behavior to product behavior:
 
 - **M**odel & Response Quality
 - **A**doption
@@ -11,7 +11,7 @@ MAUTAM turns six product-level lenses into a release decision: **SHIP / TUNE / S
 - **A**vailability & Health
 - **M**easurable Business Impact
 
-The point is deliberately product-level: an AI capability can look strong on response quality and still be a bad product if users do not complete the workflow, the control model is unsafe, or the system is operationally unreliable.
+I wanted trust and operational health to act as gates, not numbers a strong response-quality score could average away. The implementation combines a weighted product score with explicit hard stops and produces one of four release states: **SHIP / TUNE / SIMPLIFY / STOP**.
 
 ## Architecture
 
@@ -19,7 +19,7 @@ The point is deliberately product-level: an AI capability can look strong on res
 flowchart LR
   Q[Model & response quality] --> D{Release decision}
   A[Adoption] --> D
-  U[User workflow success] --> D
+  U[Workflow success] --> D
   T[Trust & controls] --> D
   H[Availability & health] --> D
   I[Measurable impact] --> D
@@ -30,8 +30,6 @@ flowchart LR
 ```
 
 ## Decision model
-
-The prototype uses an explicit weighted score **plus hard safety/operational gates**. Trust and availability cannot be averaged away by a great model-quality score.
 
 ```text
 weighted product score
@@ -48,38 +46,14 @@ python main.py
 python main.py --test
 ```
 
-Example result:
+## Signals
 
-```json
-{
-  "score": 0.816,
-  "decision": "SHIP",
-  "weakest_lens": "adoption"
-}
-```
+In a production implementation I would feed this from grounded-response evals, workflow completion, repeat adoption, human-review outcomes, latency/tool failures, availability and a business outcome such as time-to-value, risk reduced or cost avoided.
 
-## What I would measure in production
+## What this catches
 
-- grounded / task-relevant response quality
-- workflow completion and exception rate
-- repeat adoption by intended cohort
-- human-review and policy-control effectiveness
-- latency, availability and tool failures
-- time-to-value / risk reduced / cost avoided / revenue protected
+A strong demo with weak workflow completion. High usage with poor permissions. Great offline scores with failing tools in production. Interesting AI that never earns measurable product value.
 
-## Failure modes this framework is designed to catch
+## Next
 
-1. **Great demo, weak workflow:** the answer sounds good but users still finish the task manually.
-2. **High adoption, low trust:** usage grows while permissions, reversibility or review controls remain weak.
-3. **Strong offline evals, poor production health:** latency/tool failures make the product unusable.
-4. **Interesting AI, no measurable value:** novelty becomes the roadmap instead of evidence.
-
-## Production evolution
-
-- consume real eval traces rather than hand-entered scores
-- add cohort-level confidence intervals and trend windows
-- version scorecards with model/prompt/retrieval/tool changes
-- create online gates for canary → production rollout
-- preserve a decision log explaining why a release moved forward or stopped
-
-**Product thesis:** AI evaluation should answer *is this product actually working for the user and the business?*, not only *did the model pass a benchmark?*
+The next version would consume real trace windows, add cohort trends and confidence intervals, and make release gates configurable by capability rather than global.

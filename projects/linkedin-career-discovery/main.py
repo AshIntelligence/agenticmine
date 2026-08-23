@@ -1,5 +1,5 @@
-"""LinkedIn Career Discovery Redesign
-Independent product exercise: rank jobs for career intent and fit, not raw engagement. No LinkedIn affiliation."""
+"""Career Discovery Ranking Study
+Personal ranking study using LinkedIn career discovery as the surface. Unaffiliated with LinkedIn."""
 import sys
 def jaccard(a,b):
     a=set(x.lower() for x in a); b=set(x.lower() for x in b); return len(a&b)/max(1,len(a|b))

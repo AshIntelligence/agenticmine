@@ -1,12 +1,29 @@
 # Agentic Product Control Plane
 
-**AI Platform · runnable synthetic prototype**
+`Python · AI platform`
 
-Mini control plane for agent registry, tool policy, eval gates, cost budgets, incident thresholds and rollout state.
+This models the control surface I expect around production agents: **registry, tools, eval gates, cost budgets, incident thresholds and rollout state**.
+
+The interesting part is not the agent prompt. It is whether the platform can decide when an agent is allowed to move from **shadow → canary → production**, and why it is being held back.
+
+## Architecture
+
+```mermaid
+flowchart LR
+  A[Agent spec] --> G{Rollout gate}
+  E[Eval score] --> G
+  I[Incident rate] --> G
+  C[Cost p95] --> G
+  G --> H[HOLD]
+  G --> Y[CANARY]
+  G --> P[PRODUCTION]
+```
+
+## Run
 
 ```bash
 python main.py
 python main.py --test
 ```
 
-**Product point:** agent quality is also a release-management problem. Evals, permissions, cost and rollout control belong in one platform abstraction.
+The current implementation is deliberately compact, but the boundary is the important part: agent registration and allowed tools are separate from runtime health and promotion policy.

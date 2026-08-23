@@ -1,12 +1,16 @@
-# Voice of Customer Synthesis Studio
+# Voice of Customer Synthesis
 
-**Product Discovery · runnable synthetic prototype**
+`Python · product discovery`
 
-Combines qualitative comments/sentiment with quantitative usage evidence to rank recurring product pain.
+This combines qualitative comments and sentiment with quantitative usage evidence to rank recurring product pain.
+
+I use both because qualitative volume alone rewards the loudest cohort, while telemetry alone misses unmet need, intent and the reason behind behavior.
+
+## Run
 
 ```bash
 python main.py
 python main.py --test
 ```
 
-**Product point:** mentions alone reward loud users; telemetry alone misses unmet need. Product discovery needs both **qual + quant**.
+The useful output is not a sentiment summary. It is a product question with evidence: who experiences the problem, how often, how severe it is, and whether observed behavior supports the story users are telling us.

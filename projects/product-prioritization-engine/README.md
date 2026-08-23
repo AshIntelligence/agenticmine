@@ -1,12 +1,14 @@
-# Evidence-Weighted Product Prioritization Engine
+# Evidence-Weighted Product Prioritization
 
-**Product Strategy · runnable synthetic prototype**
+`Python · product strategy`
 
-Ranks bets using impact, evidence and leverage minus effort, dependencies, control burden and opportunity cost.
+This ranks bets using **impact, evidence and leverage** against **effort, dependencies, control burden and opportunity cost**.
+
+The score is there to expose tradeoffs. It is not meant to replace judgment. Two ideas with similar scores can still deserve different decisions because one creates a platform option, carries irreversible risk or blocks another critical path.
+
+## Run
 
 ```bash
 python main.py
 python main.py --test
 ```
-
-**Product point:** scoring should make tradeoffs visible, not replace judgment; evidence can beat a higher-hype idea.

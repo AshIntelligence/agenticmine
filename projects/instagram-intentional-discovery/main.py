@@ -1,15 +1,17 @@
-"""Instagram Intentional Discovery Prototype
-Independent product exercise: relevance + novelty + creator diversity + user-defined time budget. No Instagram affiliation."""
+"""Intentional Discovery Study
+Personal recommendation study using Instagram discovery as the surface. Unaffiliated with Instagram."""
 import sys
-def rank(user:dict,posts:list[dict],limit=5)->list[dict]:
-    seen=set(); out=[]
-    for p in posts:
-        rel=len(set(user['interests'])&set(p['topics']))/max(1,len(set(user['interests'])|set(p['topics']))); novelty=1-p.get('similarity_to_recent',.5); wellbeing=1-p.get('ragebait',0); creator_bonus=1 if p['creator'] not in seen else .2
-        out.append(dict(p,score=round(.45*rel+.20*novelty+.20*wellbeing+.15*creator_bonus,3))); seen.add(p['creator'])
-    return sorted(out,key=lambda x:x['score'],reverse=True)[:min(limit,user.get('session_budget_posts',limit))]
+
+def rank(items:list[dict], interests:set[str], seen_creators:set[str], minutes_left:int)->list[dict]:
+    out=[]
+    for x in items:
+        tags=set(x.get('tags',[])); relevance=len(tags&interests)/max(1,len(interests)); novelty=.25 if x.get('creator') not in seen_creators else 0; diversity=.15 if x.get('creator') not in seen_creators else 0; rage=.25 if x.get('ragebait') else 0; long_penalty=.18 if x.get('minutes',1)>max(1,minutes_left) else 0
+        score=.7*relevance+novelty+diversity-rage-long_penalty
+        out.append(dict(x,score=round(score,3)))
+    return sorted(out,key=lambda x:x['score'],reverse=True)
+
 def self_test():
-    assert len(rank({'interests':['x'],'session_budget_posts':1},[{'id':1,'creator':'a','topics':['x']},{'id':2,'creator':'b','topics':['x']}]))==1
-    x=rank({'interests':['x']},[{'id':'good','creator':'a','topics':['x'],'ragebait':0},{'id':'bad','creator':'b','topics':['x'],'ragebait':1}]); assert x[0]['id']=='good'
+    xs=[{'id':'a','creator':'new','tags':['design'],'minutes':1},{'id':'b','creator':'old','tags':['other'],'ragebait':True,'minutes':1}]; assert rank(xs,{'design'},{'old'},5)[0]['id']=='a'
 def demo():
-    u={'interests':['travel','food','design'],'session_budget_posts':3}; posts=[{'id':1,'creator':'a','topics':['travel','food'],'similarity_to_recent':.8,'ragebait':0},{'id':2,'creator':'b','topics':['design'],'similarity_to_recent':.2,'ragebait':0},{'id':3,'creator':'c','topics':['celebrity'],'similarity_to_recent':.1,'ragebait':.8}]; print(rank(u,posts))
+    xs=[{'id':'quiet-design','creator':'c1','tags':['design','travel'],'minutes':2},{'id':'rage','creator':'c2','tags':['design'],'ragebait':True,'minutes':1},{'id':'long','creator':'c3','tags':['travel'],'minutes':12}]; print(rank(xs,{'design','travel'},set(),6))
 if __name__=='__main__': self_test() if '--test' in sys.argv else demo()

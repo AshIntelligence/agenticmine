@@ -1,40 +1,23 @@
 # Human-in-the-Loop Risk Router
 
-**Trust / Safety · runnable synthetic prototype**
+`Python · agent safety · policy`
 
-Routes a proposed AI/agent action to **ALLOW / REVIEW / DENY** using four product-level risk inputs:
-
-- consequence
-- model/system confidence
-- reversibility
-- data sensitivity
+Autonomy should depend on consequence and reversibility, not confidence alone. This router turns **consequence, confidence, reversibility and data sensitivity** into **ALLOW / REVIEW / DENY**.
 
 ## Architecture
 
 ```mermaid
 flowchart LR
-  A[Proposed agent action] --> C[Consequence]
-  A --> F[Confidence]
-  A --> R[Reversibility]
-  A --> S[Data sensitivity]
-  C --> P{Risk policy}
-  F --> P
-  R --> P
-  S --> P
-  P --> L[ALLOW]
-  P --> H[HUMAN REVIEW]
-  P --> D[DENY]
-  H --> E[Approval / rejection feedback]
-  E --> P
+  C[Consequence] --> R{Risk policy}
+  F[Confidence] --> R
+  V[Reversibility] --> R
+  S[Data sensitivity] --> R
+  R --> A[ALLOW]
+  R --> H[REVIEW]
+  R --> D[DENY]
 ```
 
-## Example
-
-```text
-draft-email    → ALLOW
-delete-account → DENY
-refund         → ALLOW or REVIEW depending on amount/context policy
-```
+A draft email and an account deletion can have similar model confidence but should not receive the same autonomy. Reversibility is what makes that distinction operational.
 
 ## Run
 
@@ -43,32 +26,17 @@ python main.py
 python main.py --test
 ```
 
-## Why reversibility matters
+## Design tradeoffs
 
-Two actions with the same confidence should not necessarily receive the same autonomy. A wrong draft can be edited. A wrong transfer, deletion or external publication can have materially different consequences.
+- too much review turns automation into queue creation
+- confidence is useful but not a substitute for consequence
+- sensitive data raises risk even for technically reversible actions
+- denial should be explicit and explainable rather than a silent tool failure
 
-## Product metrics
+## Signals
 
-- false auto-allow rate
-- review precision / reviewer agreement
-- override and reversal rate
-- time spent waiting for approval
-- user trust / abandonment caused by unnecessary review
-- incident severity by action class
+Approval rate, override rate, false escalation, incident severity, rollback success and time saved per reviewed action.
 
-## Tradeoffs
+## Next
 
-- Reviewing everything minimizes some risk but makes the agent useless.
-- Confidence is not risk; consequence changes the decision.
-- Human review can become rubber-stamping if the evidence presented to the reviewer is poor.
-- Reversibility should be designed into the product where possible.
-
-## Production evolution
-
-- role / tenant / policy-aware thresholds
-- amount or blast-radius-aware controls
-- reviewer UI with evidence, diff and proposed side effect
-- immutable audit log
-- feedback loop from approvals, rejections and incidents
-
-**Product thesis:** human-in-the-loop is not a safety footnote. It is a designed product state with latency, UX and quality consequences.
+Move from one global policy to capability-level rules with role context, policy versioning and an audit trail.

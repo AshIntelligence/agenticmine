@@ -1,12 +1,16 @@
 # PRFAQ Product Spec Agent
 
-**Product Craft / AI · runnable synthetic prototype**
+`Python · product craft · AI`
 
-Turns a product brief into a structured customer promise, metrics, constraints, risks and unresolved questions.
+This turns an early product brief into a customer promise, success measures, constraints, risks and unresolved questions.
+
+The part I care about is keeping assumptions visible. Early product documents become dangerous when uncertainty gets polished into confident copy before the team has evidence.
+
+## Run
 
 ```bash
 python main.py
 python main.py --test
 ```
 
-**Product point:** generated product documentation is useful only when assumptions remain explicit and reviewable.
+I would connect a production version to discovery notes, telemetry and decision records so the spec can distinguish evidence, inference and open questions.

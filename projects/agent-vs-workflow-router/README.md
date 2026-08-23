@@ -1,50 +1,27 @@
 # Agent vs Workflow Router
 
-**Agent Architecture · runnable synthetic prototype**
+`Python · agent architecture · mechanism selection`
 
-A small architecture decision engine for a question that product teams increasingly need to answer before they start building:
+I built this router to force a mechanism decision before an agent gets designed. It weighs variability, ambiguity, statefulness, tool surface and consequence, then selects a **deterministic workflow**, **assisted agent** or **autonomous agent**.
 
-> **Should this be a deterministic workflow, an assisted agent, or an autonomous agent?**
-
-The router looks at variability, ambiguity, statefulness, tool count and consequence. Consequence reduces autonomy even when the work is highly variable.
+The important input is consequence. A highly variable task can still be the wrong place for autonomy when a bad action is expensive or hard to reverse.
 
 ## Architecture
 
 ```mermaid
 flowchart LR
-  B[Product / workflow brief] --> V[Variability]
-  B --> A[Ambiguity]
-  B --> S[Statefulness]
-  B --> T[Tool surface]
-  B --> C[Consequence]
-  V --> R{Mechanism router}
-  A --> R
-  S --> R
-  T --> R
-  C --> R
-  R --> W[Deterministic workflow]
+  V[Variability] --> R{Mechanism router}
+  A[Ambiguity] --> R
+  S[Statefulness] --> R
+  T[Tool surface] --> R
+  C[Consequence] --> R
+  R --> D[Deterministic workflow]
   R --> H[Assisted agent]
-  R --> X[Autonomous agent]
-  R --> G[Control requirements]
+  R --> U[Autonomous agent]
+  R --> P[Required controls]
 ```
 
-## Example decisions
-
-```text
-invoice-refund  → assisted-agent + human approval
-research-brief  → autonomous-agent + tool allowlist + state checkpointing
-data-export     → deterministic-workflow
-```
-
-## Why the controls are part of the output
-
-Choosing the mechanism without choosing the control boundary is incomplete architecture. The prototype can attach:
-
-- human approval
-- tool allowlists
-- state checkpointing
-
-The same product task could move from assisted → autonomous later as eval evidence and reversibility improve.
+Controls travel with the mechanism: higher consequence can add human approval; larger tool surfaces add allowlists; stateful work adds checkpoints.
 
 ## Run
 
@@ -53,27 +30,13 @@ python main.py
 python main.py --test
 ```
 
-## Product metrics
+## Design notes
 
-- task / workflow completion
-- human override rate
-- tool-error rate
-- latency and cost per completed workflow
-- escalation / rollback frequency
-- user preference for agent vs deterministic surface
+- agency is a product choice, not an architecture default
+- consequence lowers the autonomy ceiling
+- tool permissions and state recovery belong in the routing decision
+- a deterministic workflow is a successful answer when predictability matters more than flexibility
 
-## Tradeoffs
+## Next
 
-- **More agency ≠ more value.** Predictable, high-volume work may be better as normal software.
-- High consequence changes the acceptable autonomy threshold.
-- Multi-step state can justify an agent, but also creates recovery complexity.
-- A large tool surface creates both capability and blast radius.
-
-## Production evolution
-
-- calibrate scores from real workflow traces and incidents
-- add privacy / data residency / latency / cost budgets
-- add reversible-action simulation before high-impact execution
-- measure whether changing the mechanism improves the user outcome
-
-**Product thesis:** the strongest agentic product decision can be *do not build an autonomous agent here.*
+I would calibrate the thresholds from observed failure cost, task variance, escalation rate and user override behavior rather than keep fixed weights.

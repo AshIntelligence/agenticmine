@@ -1,12 +1,16 @@
 # Billing Reconciliation Observatory
 
-**Fintech / Observability · runnable synthetic prototype**
+`Python · fintech reliability`
 
-Reconciles usage, rating and invoice records and turns mismatches into exposure-aware issues.
+This checks the end-to-end path from **usage → rating → invoice** and turns mismatches into exposure-aware issues.
+
+I built the checks at the financial-path level because every local service can report healthy while the customer invoice is still wrong. Correctness has to be reconciled across the handoffs, not inferred from service uptime.
+
+## Run
 
 ```bash
 python main.py
 python main.py --test
 ```
 
-**Product point:** every local service can look healthy while the end-to-end financial path is wrong. Reconciliation is a product reliability mechanism.
+The natural production extension is a ledger of expected vs. observed state, tolerance policy by event type and automated investigation links back to the source meter/rating record.

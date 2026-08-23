@@ -1,12 +1,18 @@
-# Instagram Intentional Discovery Prototype
+# Intentional Discovery Study
 
-**Independent product exercise — no Instagram affiliation.**
+`Python · recommendation systems · product`
 
-A recommender prototype balancing relevance, novelty, creator diversity, wellbeing and a user-defined session budget.
+A personal product study using Instagram discovery as the surface. I am not affiliated with Instagram.
+
+The ranking objective balances **relevance, novelty, creator diversity, low-ragebait quality and a user-defined session budget**.
+
+I wanted to explore a feed objective where **done for now** can be a successful outcome instead of a failure to maximize session length.
+
+## Run
 
 ```bash
 python main.py
 python main.py --test
 ```
 
-**Product hypothesis:** maximizing session length can conflict with user intent; optimize for intentional discovery and lower session regret.
+The exercise is intentionally about the objective function and product tradeoff, not recreating Instagram's production recommender.
