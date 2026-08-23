@@ -1,8 +1,10 @@
 # Deployment notes
 
-## GitHub Pages
+## Static site
 
-The `docs/` folder is the static Ash Intelligence index. `.github/workflows/pages.yml` publishes it from `main` whenever the site files change.
+The `docs/` folder contains the static Ash Intelligence index and the browser-based control-plane prototype. `.github/workflows/pages.yml` is configured to deploy that folder from `main` after GitHub Pages is enabled for the repository.
+
+Public hosting is treated as complete only after the deployed URL is verified from a signed-out browser. That activation/verification work is tracked in GitHub Issues.
 
 ## Interactive app
 
