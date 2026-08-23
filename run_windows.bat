@@ -4,7 +4,7 @@ cd /d "%~dp0"
 
 echo.
 echo ================================================
-echo   Ash Baskaran - Agentic AI Builder Portfolio
+echo   Ash Intelligence Lab
 echo ================================================
 echo.
 
@@ -27,7 +27,7 @@ echo [2/3] Installing/updating dependencies...
 .venv\Scripts\python.exe -m pip install -q -r requirements.txt
 if errorlevel 1 goto :fail
 
-echo [3/3] Starting interview-safe demo at http://localhost:8501
+echo [3/3] Starting deterministic local demo at http://localhost:8501
 set AGENT_MODE=mock
 .venv\Scripts\python.exe -m streamlit run app.py
 exit /b 0
