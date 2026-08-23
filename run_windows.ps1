@@ -2,8 +2,8 @@ $ErrorActionPreference = "Stop"
 Set-Location $PSScriptRoot
 
 Write-Host ""
-Write-Host "Ash Baskaran - Agentic AI Builder Portfolio" -ForegroundColor Cyan
-Write-Host "Interview-safe local launcher" -ForegroundColor DarkGray
+Write-Host "Ash Intelligence Lab" -ForegroundColor Cyan
+Write-Host "Deterministic local launcher" -ForegroundColor DarkGray
 Write-Host ""
 
 if (-not (Get-Command python -ErrorAction SilentlyContinue)) {
