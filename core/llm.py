@@ -17,7 +17,7 @@ class LLMResult:
 
 
 class ClaudeClient:
-    """Tiny provider wrapper with interview-safe mock mode."""
+    """Tiny provider wrapper with deterministic mock mode."""
 
     def __init__(self) -> None:
         mode = os.getenv("AGENT_MODE", settings.mode).lower()
