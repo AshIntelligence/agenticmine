@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import asdict
+import html
 import os
 from pathlib import Path
 from typing import Any
@@ -33,6 +34,10 @@ st.markdown(
 """,
     unsafe_allow_html=True,
 )
+
+
+def _safe_html_text(value: Any) -> str:
+    return html.escape(str(value)).replace("\n", "<br>")
 
 
 def _set_product(slug: str | None) -> None:
@@ -70,10 +75,12 @@ def _result_panel(slug: str, result: Any) -> None:
         if slug == "support-knowledge-os":
             _status(result.get("status", ""))
             if result.get("answer"):
-                st.markdown(f'<div class="ash-answer"><b>Answer</b><br>{result["answer"]}</div>', unsafe_allow_html=True)
+                safe_answer = _safe_html_text(result["answer"])
+                st.markdown(f'<div class="ash-answer"><b>Answer</b><br>{safe_answer}</div>', unsafe_allow_html=True)
             c1, c2 = st.columns(2)
             c1.metric("Confidence", result.get("confidence", 0))
-            c2.write("**Sources**", ", ".join(result.get("sources", [])) or "—")
+            sources = ", ".join(result.get("sources", [])) or "—"
+            c2.markdown(f"**Sources**  \n{sources}")
             return
 
         if slug == "agentic-product-control-plane":
@@ -253,7 +260,7 @@ def _render_grounded_agent() -> None:
 
     result = st.session_state.get("grounded-agent-result")
     if result:
-        safe_answer = result["answer"].replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\n", "<br>")
+        safe_answer = _safe_html_text(result["answer"])
         st.markdown(f'<div class="ash-answer">{safe_answer}</div>', unsafe_allow_html=True)
         st.markdown("### Retrieved evidence")
         for ev in result["evidence"]:

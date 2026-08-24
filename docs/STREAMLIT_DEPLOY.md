@@ -1,44 +1,48 @@
-# Deploy the Interactive Demo Hub
+# Interactive Systems Lab deployment
 
-The deployable entrypoint is `streamlit_app.py` at the repository root.
+The public Demo Hub is deployed from `streamlit_app.py` at the repository root.
 
-## Streamlit Community Cloud
+## Current deployment
 
-Use these deployment values:
-
+- Live app: https://ash-intelligence-lab.streamlit.app/
 - Repository: `AshIntelligence/agenticmine`
 - Branch: `main`
 - App file: `streamlit_app.py`
-- Suggested app URL: `ash-intelligence-lab` (or another available subdomain)
 - Python: 3.12
 
-The root `requirements.txt` already contains the Python dependencies used by the app.
-
-After deployment, verify the hub while signed out/incognito before adding the public URL to the README or portfolio.
+The root `requirements.txt` contains the Python dependencies used by the app. Streamlit Community Cloud redeploys changes from `main`.
 
 ## Deep links
 
-Each system can be opened directly with the `product` query parameter. For example, once the base URL is known:
+Every system can be opened directly with the `product` query parameter. Examples:
 
 ```text
-https://<app>.streamlit.app/?product=mautam-evaluation
-https://<app>.streamlit.app/?product=agentic-product-control-plane
-https://<app>.streamlit.app/?product=fraud-signal-decision-engine
-https://<app>.streamlit.app/?product=support-knowledge-os
+https://ash-intelligence-lab.streamlit.app/?product=mautam-evaluation
+https://ash-intelligence-lab.streamlit.app/?product=agentic-product-control-plane
+https://ash-intelligence-lab.streamlit.app/?product=fraud-signal-decision-engine
+https://ash-intelligence-lab.streamlit.app/?product=support-knowledge-os
 ```
 
 The home page exposes all 20 product cards and a grounded Q&A playground.
 
-## Optional model-backed mode
+## Verification
 
-The public hub is deliberately usable without any secret or API key. If a model-backed experience is added later, store credentials in Streamlit Community Cloud app secrets rather than committing a real `.streamlit/secrets.toml` file.
+Automated CI verifies:
 
-## Release checklist
+1. the catalog maps exactly 20 unique project engines;
+2. both Streamlit entrypoints boot without exceptions;
+3. every `?product=<slug>` route renders;
+4. the actual `Run product` form submits for all 20 systems;
+5. grounded Q&A returns an answer, evidence, and evaluation output;
+6. an invalid product route fails safely back to the hub;
+7. behavioral evals and all original project demos/self-checks still pass.
 
-1. Open the home page signed out and confirm 20 product cards render.
-2. Open at least one system in every category.
-3. Run the default interaction for all 20 systems.
-4. Open the grounded Q&A playground and ask the default question.
-5. Confirm the GitHub source links open the matching project folders.
-6. Test on both desktop and mobile widths.
-7. Only then add the verified public URL to the repository README, standalone flagship READMEs, portfolio, and GitHub profile.
+Manual release checks that cannot be established by headless CI are:
+
+- open the public app signed out/incognito;
+- check responsive layout on a phone-sized viewport;
+- visually confirm outbound GitHub and portfolio links.
+
+## Secrets
+
+The public hub is deliberately usable without an API key. If model-backed behavior is enabled later, credentials belong in Streamlit Community Cloud app secrets. A real `.streamlit/secrets.toml` is ignored by Git and must never be committed.
