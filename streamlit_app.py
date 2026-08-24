@@ -79,7 +79,8 @@ def _result_panel(slug: str, result: Any) -> None:
                 st.markdown(f'<div class="ash-answer"><b>Answer</b><br>{safe_answer}</div>', unsafe_allow_html=True)
             c1, c2 = st.columns(2)
             c1.metric("Confidence", result.get("confidence", 0))
-            c2.write("**Sources**", ", ".join(result.get("sources", [])) or "—")
+            sources = ", ".join(result.get("sources", [])) or "—"
+            c2.markdown(f"**Sources**  \n{sources}")
             return
 
         if slug == "agentic-product-control-plane":
