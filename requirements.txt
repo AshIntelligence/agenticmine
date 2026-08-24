@@ -1,5 +1,5 @@
-anthropic
-streamlit
-pypdf
-python-docx
-pytest
+anthropic==1.0.0
+streamlit==1.62.0
+pypdf==6.16.2
+python-docx==1.2.0
+pytest==9.1.1
