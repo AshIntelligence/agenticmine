@@ -4,6 +4,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import sys
 import time
 from urllib.error import HTTPError, URLError
+from urllib.parse import urljoin, urlparse
 from urllib.request import Request, urlopen
 
 URLS = {
@@ -15,6 +16,20 @@ URLS = {
     "portfolio": "https://ashbaskaran.netlify.app/",
     "github-profile": "https://github.com/AshIntelligence",
 }
+
+REDIRECT_CODES = {301, 302, 303, 307, 308}
+AUTH_MARKERS = ("login", "signin", "sign-in", "auth", "oauth")
+
+
+def _safe_public_redirect(source_url: str, location: str | None) -> bool:
+    if not location:
+        return False
+    target = urljoin(source_url, location)
+    source_host = urlparse(source_url).hostname
+    target_parsed = urlparse(target)
+    target_host = target_parsed.hostname
+    target_text = target.lower()
+    return source_host == target_host and not any(marker in target_text for marker in AUTH_MARKERS)
 
 
 def check(name: str, url: str, attempts: int = 2) -> tuple[str, str, bool, str]:
@@ -31,7 +46,12 @@ def check(name: str, url: str, attempts: int = 2) -> tuple[str, str, bool, str]:
                     last_error = "empty response body"
                 else:
                     return name, url, True, f"HTTP {status}"
-        except (HTTPError, URLError, TimeoutError) as exc:
+        except HTTPError as exc:
+            location = exc.headers.get("Location") if exc.headers else None
+            if exc.code in REDIRECT_CODES and _safe_public_redirect(url, location):
+                return name, url, True, f"HTTP {exc.code} same-host public redirect"
+            last_error = f"HTTPError: HTTP {exc.code}"
+        except (URLError, TimeoutError) as exc:
             last_error = f"{type(exc).__name__}: {exc}"
 
         if attempt < attempts:
