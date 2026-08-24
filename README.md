@@ -6,15 +6,17 @@ I use this repo to build through questions I keep running into in AI product wor
 
 I keep most projects compact enough that I can follow the whole path from input to decision to output. Some are architecture experiments, some are product tools, and some are small implementations of ideas I wanted to test in code.
 
-**[Profile](https://github.com/AshIntelligence)** · **[Active roadmap](https://github.com/AshIntelligence/agenticmine/issues)** · **[LinkedIn](https://www.linkedin.com/in/ashb27)**
+**[▶ Live Demo Hub](https://ash-intelligence-lab.streamlit.app/)** · **[Profile](https://github.com/AshIntelligence)** · **[Active roadmap](https://github.com/AshIntelligence/agenticmine/issues)** · **[LinkedIn](https://www.linkedin.com/in/ashb27)**
 
-## Interactive Systems Lab
+## Interactive Demo Hub
 
-All 20 systems have a shared Streamlit interaction layer in `streamlit_app.py`. The UI calls the original engines under `projects/` rather than reimplementing their logic.
+All 20 systems have an interactive Streamlit surface. The UI calls the original engines under `projects/` rather than reimplementing their logic.
 
-The hub includes searchable product cards, typed inputs, decision/result panels, direct product routes, and a grounded document-agent playground where you can ask a question and inspect the retrieved evidence and evaluation trace.
+**[Open the Interactive Systems Lab →](https://ash-intelligence-lab.streamlit.app/)**
 
-Run it locally:
+The hub includes searchable product cards, typed inputs, decision/result panels, direct product URLs, and a grounded document-agent playground where you can ask a question and inspect the retrieved evidence and evaluation trace.
+
+Run the same experience locally:
 
 ```bash
 pip install -r requirements.txt
@@ -29,7 +31,7 @@ streamlit run streamlit_app.py
 
 MAUTAM combines model and response quality with adoption, workflow success, trust, availability and measurable impact. The current implementation maps those signals to **SHIP / TUNE / SIMPLIFY / STOP**.
 
-**[Standalone repo →](https://github.com/AshIntelligence/AI-Observability)** · **[Lab source →](projects/mautam-evaluation/)**
+**[▶ Try live →](https://ash-intelligence-lab.streamlit.app/?product=mautam-evaluation)** · **[Standalone repo →](https://github.com/AshIntelligence/AI-Observability)** · **[Lab source →](projects/mautam-evaluation/)**
 
 ### Agentic Product Control Plane
 
@@ -37,7 +39,7 @@ MAUTAM combines model and response quality with adoption, workflow success, trus
 
 This brings agent registration, eval gates, tool permissions, cost budgets, incident thresholds and rollout state into one control surface. Change the inputs and see why an agent is held, moved to canary, or promoted.
 
-**[Standalone repo →](https://github.com/AshIntelligence/agent-control-plane)** · **[Lab source →](projects/agentic-product-control-plane/)** · **[Interactive UI source →](docs/control-plane-demo.html)**
+**[▶ Try live →](https://ash-intelligence-lab.streamlit.app/?product=agentic-product-control-plane)** · **[Standalone repo →](https://github.com/AshIntelligence/agent-control-plane)** · **[Lab source →](projects/agentic-product-control-plane/)** · **[Interactive UI source →](docs/control-plane-demo.html)**
 
 ### Risk Decision System
 
@@ -45,7 +47,7 @@ This brings agent registration, eval gates, tool permissions, cost budgets, inci
 
 A small risk-decision engine that keeps signals, policy, human review and action separate. I use it to explore the balance between earlier containment and unnecessary customer friction.
 
-**[Standalone repo →](https://github.com/AshIntelligence/risk-decision-system)** · **[Lab source →](projects/fraud-signal-decision-engine/)** · **[Human-review router →](projects/human-in-loop-risk-router/)**
+**[▶ Try live →](https://ash-intelligence-lab.streamlit.app/?product=fraud-signal-decision-engine)** · **[Standalone repo →](https://github.com/AshIntelligence/risk-decision-system)** · **[Lab source →](projects/fraud-signal-decision-engine/)** · **[Human-review router →](projects/human-in-loop-risk-router/)**
 
 ## Agent architecture & control
 
