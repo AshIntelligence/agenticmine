@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import sys
 import time
 from urllib.error import HTTPError, URLError
@@ -16,33 +17,38 @@ URLS = {
 }
 
 
-def check(name: str, url: str, attempts: int = 3) -> tuple[bool, str]:
+def check(name: str, url: str, attempts: int = 2) -> tuple[str, str, bool, str]:
     last_error = "unknown error"
     for attempt in range(1, attempts + 1):
         request = Request(url, headers={"User-Agent": "AshIntelligence-public-surface-check/1.0"})
         try:
-            with urlopen(request, timeout=30) as response:
+            with urlopen(request, timeout=15) as response:
                 status = response.getcode()
-                body = response.read(4096).decode("utf-8", errors="ignore").lower()
+                body = response.read(1024).decode("utf-8", errors="ignore")
                 if status != 200:
                     last_error = f"HTTP {status}"
                 elif not body.strip():
                     last_error = "empty response body"
                 else:
-                    return True, f"HTTP {status}"
+                    return name, url, True, f"HTTP {status}"
         except (HTTPError, URLError, TimeoutError) as exc:
             last_error = f"{type(exc).__name__}: {exc}"
 
         if attempt < attempts:
-            time.sleep(5 * attempt)
+            time.sleep(3)
 
-    return False, last_error
+    return name, url, False, last_error
 
 
 def main() -> int:
+    results = []
+    with ThreadPoolExecutor(max_workers=len(URLS)) as pool:
+        futures = [pool.submit(check, name, url) for name, url in URLS.items()]
+        for future in as_completed(futures):
+            results.append(future.result())
+
     failures: list[str] = []
-    for name, url in URLS.items():
-        ok, detail = check(name, url)
+    for name, url, ok, detail in sorted(results):
         marker = "PASS" if ok else "FAIL"
         print(f"{marker:4} {name:20} {detail}  {url}")
         if not ok:
