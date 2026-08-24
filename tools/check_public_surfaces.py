@@ -5,7 +5,7 @@ import sys
 import time
 from urllib.error import HTTPError, URLError
 from urllib.parse import urljoin, urlparse
-from urllib.request import Request, urlopen
+from urllib.request import HTTPRedirectHandler, Request, build_opener
 
 URLS = {
     "demo-hub": "https://ash-intelligence-lab.streamlit.app/",
@@ -18,7 +18,15 @@ URLS = {
 }
 
 REDIRECT_CODES = {301, 302, 303, 307, 308}
-AUTH_MARKERS = ("login", "signin", "sign-in", "auth", "oauth")
+AUTH_MARKERS = ("login", "signin", "sign-in", "oauth")
+
+
+class NoRedirect(HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        return None
+
+
+OPENER = build_opener(NoRedirect)
 
 
 def _safe_public_redirect(source_url: str, location: str | None) -> bool:
@@ -35,9 +43,15 @@ def _safe_public_redirect(source_url: str, location: str | None) -> bool:
 def check(name: str, url: str, attempts: int = 2) -> tuple[str, str, bool, str]:
     last_error = "unknown error"
     for attempt in range(1, attempts + 1):
-        request = Request(url, headers={"User-Agent": "AshIntelligence-public-surface-check/1.0"})
+        request = Request(
+            url,
+            headers={
+                "User-Agent": "Mozilla/5.0 AshIntelligence-public-surface-check/1.0",
+                "Accept": "text/html,application/xhtml+xml",
+            },
+        )
         try:
-            with urlopen(request, timeout=15) as response:
+            with OPENER.open(request, timeout=15) as response:
                 status = response.getcode()
                 body = response.read(1024).decode("utf-8", errors="ignore")
                 if status != 200:
@@ -50,7 +64,8 @@ def check(name: str, url: str, attempts: int = 2) -> tuple[str, str, bool, str]:
             location = exc.headers.get("Location") if exc.headers else None
             if exc.code in REDIRECT_CODES and _safe_public_redirect(url, location):
                 return name, url, True, f"HTTP {exc.code} same-host public redirect"
-            last_error = f"HTTPError: HTTP {exc.code}"
+            target = location or "no-location"
+            last_error = f"HTTPError: HTTP {exc.code}; location={target}"
         except (URLError, TimeoutError) as exc:
             last_error = f"{type(exc).__name__}: {exc}"
 
