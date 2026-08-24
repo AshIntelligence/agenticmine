@@ -8,6 +8,19 @@ I keep most projects compact enough that I can follow the whole path from input 
 
 **[Active roadmap](https://github.com/AshIntelligence/agenticmine/issues)** · **[Portfolio](https://ashbaskaran.netlify.app/)** · **[LinkedIn](https://www.linkedin.com/in/ashb27)**
 
+## Interactive Demo Hub
+
+All 20 systems now have an interactive Streamlit surface in `streamlit_app.py`. The UI calls the original engines under `projects/` rather than reimplementing their logic.
+
+```bash
+pip install -r requirements.txt
+streamlit run streamlit_app.py
+```
+
+The hub includes searchable product cards, typed inputs, decision/result panels, direct product URLs through `?product=<project-slug>`, and a grounded document-agent playground where you can ask a question and inspect the retrieved evidence and evaluation trace.
+
+The public deployment configuration is documented in [`docs/STREAMLIT_DEPLOY.md`](docs/STREAMLIT_DEPLOY.md). Until a hosted URL is verified, this README does not claim the hub is publicly live.
+
 ## Current focus
 
 ### MAUTAM — AI product evaluation
@@ -80,7 +93,7 @@ A small risk-decision engine that keeps signals, policy, human review and action
 python tools/run_systems.py
 ```
 
-Each project has a local demo and a self-check. The Streamlit app remains in `app.py`, `agents/`, `core/` and `evals/`.
+Each project has a local demo and a self-check. `streamlit_app.py` is the interactive 20-product hub; the original agent app remains in `app.py`, `agents/`, `core/` and `evals/`.
 
 Run one system directly, for example:
 
