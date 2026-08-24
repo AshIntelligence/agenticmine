@@ -1,11 +1,13 @@
 from pathlib import Path
 
+import pytest
 from streamlit.testing.v1 import AppTest
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def test_streamlit_app_boots_without_exception():
-    app = AppTest.from_file(str(ROOT / "app.py"))
+@pytest.mark.parametrize("entrypoint", ["app.py", "streamlit_app.py"])
+def test_streamlit_apps_boot_without_exception(entrypoint):
+    app = AppTest.from_file(str(ROOT / entrypoint))
     app.run(timeout=30)
     assert not app.exception
