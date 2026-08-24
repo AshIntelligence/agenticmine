@@ -12,27 +12,27 @@ I keep most projects compact enough that I can follow the whole path from input 
 
 ### MAUTAM — AI product evaluation
 
-[![MAUTAM evaluation system](docs/assets/mautam-system.svg)](projects/mautam-evaluation/)
+[![MAUTAM evaluation system](docs/assets/mautam-system.svg)](https://github.com/AshIntelligence/AI-Observability)
 
 MAUTAM combines model and response quality with adoption, workflow success, trust, availability and measurable impact. The current implementation maps those signals to **SHIP / TUNE / SIMPLIFY / STOP**.
 
-**[Code + architecture →](projects/mautam-evaluation/)**
+**[Standalone repo →](https://github.com/AshIntelligence/AI-Observability)** · **[Lab source →](projects/mautam-evaluation/)**
 
 ### Agentic Product Control Plane
 
-[![Agentic Product Control Plane](docs/assets/control-plane.svg)](projects/agentic-product-control-plane/)
+[![Agentic Product Control Plane](docs/assets/control-plane.svg)](https://github.com/AshIntelligence/agent-control-plane)
 
 This brings agent registration, eval gates, tool permissions, cost budgets, incident thresholds and rollout state into one control surface. The browser version lets me change the inputs and see why an agent is held, moved to canary, or promoted.
 
-**[Code + architecture →](projects/agentic-product-control-plane/)** · **[Interactive UI source →](docs/control-plane-demo.html)**
+**[Standalone repo →](https://github.com/AshIntelligence/agent-control-plane)** · **[Lab source →](projects/agentic-product-control-plane/)** · **[Interactive UI source →](docs/control-plane-demo.html)**
 
 ### Risk Decision System
 
-[![Risk decision system](docs/assets/risk-decision-system.svg)](projects/fraud-signal-decision-engine/)
+[![Risk decision system](docs/assets/risk-decision-system.svg)](https://github.com/AshIntelligence/risk-decision-system)
 
 A small risk-decision engine that keeps signals, policy, human review and action separate. I use it to explore the balance between earlier containment and unnecessary customer friction.
 
-**[Code →](projects/fraud-signal-decision-engine/)** · **[Human-review router →](projects/human-in-loop-risk-router/)**
+**[Standalone repo →](https://github.com/AshIntelligence/risk-decision-system)** · **[Lab source →](projects/fraud-signal-decision-engine/)** · **[Human-review router →](projects/human-in-loop-risk-router/)**
 
 ## Agent architecture & control
 
