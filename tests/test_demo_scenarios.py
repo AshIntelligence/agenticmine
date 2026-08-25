@@ -30,7 +30,13 @@ def test_each_alternate_dataset_runs_the_original_engine(slug, scenario):
     assert validate_payload(slug, payload) == []
     result = run_product(slug, payload)
     assert result is not None
-    if isinstance(result, (dict, list, str)):
+
+    # For anomaly detection, an empty list is a meaningful healthy result: no
+    # point crossed the configured threshold. Every other guided scenario is
+    # expected to produce a non-empty structured result.
+    if slug == "telemetry-anomaly-to-action" and scenario["label"] == "Stable metric":
+        assert result == []
+    elif isinstance(result, (dict, list, str)):
         assert result
 
 
