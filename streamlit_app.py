@@ -9,7 +9,8 @@ from typing import Any
 import streamlit as st
 
 from agents.document_intelligence import DocumentIntelligenceAgent
-from ui.demo_adapters import CATALOG, CATALOG_BY_SLUG, run_product, verify_catalog
+from ui.demo_adapters import CATALOG, CATALOG_BY_SLUG, default_payload, run_product, verify_catalog
+from ui.demo_ux import GUIDANCE, SCENARIOS, validate_payload
 
 ROOT = Path(__file__).resolve().parent
 
@@ -30,6 +31,7 @@ st.markdown(
 .ash-sub {font-size:1.08rem; max-width:800px; opacity:.78; margin-bottom:1.25rem;}
 .ash-pill {display:inline-block; border:1px solid rgba(120,120,140,.28); border-radius:999px; padding:.32rem .62rem; margin:.15rem .3rem .15rem 0; font-size:.78rem; opacity:.78;}
 .ash-answer {padding:1rem 1.15rem; border-radius:14px; border:1px solid rgba(120,120,140,.25); background:rgba(120,120,140,.06);}
+.ash-guide {font-size:.92rem; opacity:.88;}
 </style>
 """,
     unsafe_allow_html=True,
@@ -177,26 +179,109 @@ def _result_panel(slug: str, result: Any) -> None:
     st.write(result)
 
 
+def _field_help(field: dict[str, Any]) -> str | None:
+    label = field["label"].lower()
+    if "json" in label:
+        return "Must remain valid JSON. If you do not want to edit JSON, load one of the sample scenarios above."
+    if "comma separated" in label:
+        return "Enter plain values separated by commas; spaces are optional."
+    if "one per line" in label or "one passage per line" in label:
+        return "Enter one item on each line."
+    if field["kind"] == "slider" and field.get("min") == 0.0 and field.get("max") == 1.0:
+        return "0 is the minimum signal value; 1 is the maximum. See the explanation above for what high/low means here."
+    return None
+
+
 def _render_field(slug: str, field: dict[str, Any]) -> Any:
     key = f"demo:{slug}:{field['name']}"
     kind = field["kind"]
     label = field["label"]
     default = field["default"]
+    help_text = _field_help(field)
+    has_state = key in st.session_state
+
     if kind == "slider":
-        return st.slider(label, min_value=field["min"], max_value=field["max"], value=default, step=field["step"], key=key)
+        kwargs = {"min_value": field["min"], "max_value": field["max"], "step": field["step"], "key": key, "help": help_text}
+        if not has_state:
+            kwargs["value"] = default
+        return st.slider(label, **kwargs)
     if kind == "number":
-        return st.number_input(label, min_value=field.get("min"), max_value=field.get("max"), value=default, step=field.get("step", 1), key=key)
+        kwargs = {"min_value": field.get("min"), "max_value": field.get("max"), "step": field.get("step", 1), "key": key, "help": help_text}
+        if not has_state:
+            kwargs["value"] = default
+        return st.number_input(label, **kwargs)
     if kind == "checkbox":
-        return st.checkbox(label, value=default, key=key)
+        kwargs = {"key": key, "help": help_text}
+        if not has_state:
+            kwargs["value"] = default
+        return st.checkbox(label, **kwargs)
     if kind == "select":
         options = field["options"]
-        index = options.index(default) if default in options else 0
-        return st.selectbox(label, options=options, index=index, key=key)
+        kwargs = {"options": options, "key": key, "help": help_text}
+        if not has_state:
+            kwargs["index"] = options.index(default) if default in options else 0
+        return st.selectbox(label, **kwargs)
     if kind == "multiselect":
-        return st.multiselect(label, options=field["options"], default=default, key=key)
+        kwargs = {"options": field["options"], "key": key, "help": help_text}
+        if not has_state:
+            kwargs["default"] = default
+        return st.multiselect(label, **kwargs)
     if kind == "textarea":
-        return st.text_area(label, value=default, height=120 if len(str(default)) < 220 else 180, key=key)
-    return st.text_input(label, value=str(default), key=key)
+        kwargs = {"height": 120 if len(str(default)) < 220 else 180, "key": key, "help": help_text}
+        if not has_state:
+            kwargs["value"] = default
+        return st.text_area(label, **kwargs)
+    kwargs = {"key": key, "help": help_text}
+    if not has_state:
+        kwargs["value"] = str(default)
+    return st.text_input(label, **kwargs)
+
+
+def _load_payload(slug: str, payload: dict[str, Any], label: str, why: str) -> None:
+    item = CATALOG_BY_SLUG[slug]
+    merged = default_payload(slug)
+    merged.update(payload)
+    for field in item["fields"]:
+        st.session_state[f"demo:{slug}:{field['name']}"] = merged[field["name"]]
+    st.session_state[f"demo-loaded:{slug}"] = {"label": label, "why": why}
+    st.session_state.pop(f"demo-result:{slug}", None)
+    st.session_state.pop(f"demo-error:{slug}", None)
+
+
+def _render_guidance(slug: str) -> None:
+    guide = GUIDANCE[slug]
+    st.markdown("### How to use this demo")
+    c1, c2, c3 = st.columns(3)
+    with c1:
+        with st.container(border=True):
+            st.markdown("**1 · What this does**")
+            st.write(guide["what"])
+    with c2:
+        with st.container(border=True):
+            st.markdown("**2 · What to enter**")
+            st.write(guide["inputs"])
+    with c3:
+        with st.container(border=True):
+            st.markdown("**3 · What you get**")
+            st.write(guide["output"])
+
+    st.markdown("#### Don't want to invent test data?")
+    st.caption("Load a sample below, then click **Run product**. The two samples intentionally exercise different behavior.")
+    scenarios = SCENARIOS[slug]
+    cols = st.columns(3)
+    with cols[0]:
+        if st.button("Reset to starter example", key=f"reset:{slug}", use_container_width=True):
+            _load_payload(slug, {}, "Starter example", "The pre-filled baseline scenario for this product.")
+            st.rerun()
+    for index, scenario in enumerate(scenarios, start=1):
+        with cols[index]:
+            if st.button(f"Load: {scenario['label']}", key=f"sample:{slug}:{index}", use_container_width=True):
+                _load_payload(slug, scenario["payload"], scenario["label"], scenario["why"])
+                st.rerun()
+
+    loaded = st.session_state.get(f"demo-loaded:{slug}")
+    if loaded:
+        st.info(f"**Loaded scenario:** {loaded['label']}  \n{loaded['why']}")
 
 
 def _render_product(slug: str) -> None:
@@ -213,6 +298,9 @@ def _render_product(slug: str) -> None:
 
     st.markdown('<span class="ash-pill">Original Python engine</span><span class="ash-pill">Synthetic/public-safe inputs</span><span class="ash-pill">No API key required</span>', unsafe_allow_html=True)
 
+    _render_guidance(slug)
+
+    st.markdown("### Try it")
     payload: dict[str, Any] = {}
     with st.form(f"product-form-{slug}", border=True):
         for field in item["fields"]:
@@ -222,17 +310,23 @@ def _render_product(slug: str) -> None:
     result_key = f"demo-result:{slug}"
     error_key = f"demo-error:{slug}"
     if submitted:
-        try:
-            st.session_state[result_key] = run_product(slug, payload)
-            st.session_state.pop(error_key, None)
-        except Exception as exc:
-            st.session_state[error_key] = f"{type(exc).__name__}: {exc}"
+        errors = validate_payload(slug, payload)
+        if errors:
+            st.session_state[error_key] = "Please fix the input:\n\n" + "\n".join(f"- {error}" for error in errors)
             st.session_state.pop(result_key, None)
+        else:
+            try:
+                st.session_state[result_key] = run_product(slug, payload)
+                st.session_state.pop(error_key, None)
+            except Exception as exc:
+                st.session_state[error_key] = f"I couldn't process this input. Load a sample scenario or check the formats above. Details: {exc}"
+                st.session_state.pop(result_key, None)
 
     if error_key in st.session_state:
         st.error(st.session_state[error_key])
     if result_key in st.session_state:
         _result_panel(slug, st.session_state[result_key])
+        st.info("**How to read this result:** " + GUIDANCE[slug]["output"])
 
     st.divider()
     st.markdown("### What this demonstrates")
@@ -244,6 +338,7 @@ def _render_grounded_agent() -> None:
     st.markdown('<div class="ash-eyebrow">BONUS AGENT PLAYGROUND</div>', unsafe_allow_html=True)
     st.markdown("# Ask a grounded document agent")
     st.write("Ask a natural-language question over two synthetic policy documents. The agent retrieves evidence first, answers from that evidence, cites the chunks, and exposes its evaluation trace.")
+    st.info("**What to enter:** a plain-English question about availability, rollout, controls, or other facts in the two synthetic policy documents. A starter question is already filled in.")
 
     question = st.text_input("Question", value="What availability targets do the documents specify, and where do they conflict?", key="grounded-agent-question")
     if st.button("Ask agent", type="primary", use_container_width=True):
@@ -300,7 +395,6 @@ with st.sidebar:
             st.rerun()
     st.divider()
     st.page_link("https://github.com/AshIntelligence/agenticmine", label="GitHub source ↗")
-    st.page_link("https://ashbaskaran.netlify.app/", label="Portfolio ↗")
 
 if selected == "__agent__":
     _render_grounded_agent()
@@ -310,12 +404,12 @@ else:
     check = verify_catalog()
     st.markdown('<div class="ash-eyebrow">ASH INTELLIGENCE · INTERACTIVE SYSTEMS LAB</div>', unsafe_allow_html=True)
     st.markdown('<div class="ash-hero">Touch the product.<br>Change the decision.</div>', unsafe_allow_html=True)
-    st.markdown('<div class="ash-sub">Twenty runnable AI/product system prototypes, now exposed as interactive product experiences. Ask a question, change a risk signal, rank a feed, test a rollout gate, reconcile billing, or generate a product spec.</div>', unsafe_allow_html=True)
+    st.markdown('<div class="ash-sub">Twenty runnable AI/product system prototypes, exposed as interactive product experiences. Every product page now explains what it does, what to enter, what the result means, and includes two one-click sample scenarios.</div>', unsafe_allow_html=True)
 
     m1, m2, m3, m4 = st.columns(4)
     m1.metric("Interactive systems", check["count"])
     m2.metric("Engine coverage", "20 / 20" if not check["missing"] else "Check failed")
-    m3.metric("Public-safe mode", "Deterministic")
+    m3.metric("Guided scenarios", "40")
     m4.metric("Agent playground", "Grounded Q&A")
 
     if check["missing"] or not check["unique"]:
@@ -342,6 +436,7 @@ else:
                 st.caption(item["category"].upper())
                 st.markdown(f"### {item['title']}")
                 st.write(item["summary"])
+                st.caption("Includes 2 guided sample scenarios")
                 if st.button("Open product →", key=f"open:{item['slug']}", use_container_width=True):
                     _open_product(item["slug"])
 
