@@ -20,7 +20,7 @@ CATALOG: list[dict[str, Any]] = [
         "slug": "agent-vs-workflow-router",
         "title": "Agent vs Workflow Router",
         "category": "Agents & Control",
-        "summary": "Choose deterministic workflow, assisted agent, or autonomous agent from product risk and task variability.",
+        "summary": "Routes work to a deterministic workflow, assisted agent or autonomous agent based on variability, consequence and state.",
         "fields": [
             _f("variability", "Task variability", "slider", .75, min=0.0, max=1.0, step=.05),
             _f("consequence", "Consequence of a wrong action", "slider", .35, min=0.0, max=1.0, step=.05),
@@ -33,7 +33,7 @@ CATALOG: list[dict[str, Any]] = [
         "slug": "agentic-product-control-plane",
         "title": "Agent Control Plane",
         "category": "Agents & Control",
-        "summary": "Register an agent, authorize a tool call, and decide whether rollout can advance.",
+        "summary": "Applies tool authorization, approval, quality, cost and incident gates to agent rollout.",
         "fields": [
             _f("agent_name", "Agent name", "text", "finance-agent"),
             _f("tools", "Registered tools", "multiselect", ["search", "draft", "refund"], options=["search", "draft", "refund", "delete-account", "publish"]),
@@ -52,7 +52,7 @@ CATALOG: list[dict[str, Any]] = [
         "slug": "billing-reconciliation-observatory",
         "title": "Billing Reconciliation Observatory",
         "category": "Fintech & Reliability",
-        "summary": "Compare usage, rated price, and invoice amount and surface reconciliation failures.",
+        "summary": "Reconciles usage, rated price and invoice amount and surfaces the financial delta.",
         "fields": [
             _f("record_id", "Record ID", "text", "meter-42"),
             _f("quantity", "Usage quantity", "number", 50.0, min=0.0, max=1000000.0, step=1.0),
@@ -65,7 +65,7 @@ CATALOG: list[dict[str, Any]] = [
         "slug": "experiment-analysis-copilot",
         "title": "Experiment Analysis Copilot",
         "category": "Product Intelligence",
-        "summary": "Evaluate conversion uplift and statistical significance before recommending SHIP, HOLD, or STOP.",
+        "summary": "Calculates conversion uplift and statistical evidence, then returns SHIP, HOLD or STOP.",
         "fields": [
             _f("control_success", "Control conversions", "number", 1200, min=0, max=10000000, step=1),
             _f("control_n", "Control users", "number", 10000, min=1, max=10000000, step=1),
@@ -78,7 +78,7 @@ CATALOG: list[dict[str, Any]] = [
         "slug": "finance-close-orchestrator",
         "title": "Finance Close Orchestrator",
         "category": "Fintech & Reliability",
-        "summary": "Explore dependency-aware finance-close states and human-controller checkpoints.",
+        "summary": "Advances finance-close work through dependencies, exceptions and controller approval.",
         "fields": [
             _f("completed", "Completed tasks", "multiselect", ["ap-close", "ar-close", "cash-position"], options=["ap-close", "ar-close", "cash-position", "reconcile", "gl-close", "controller-approval"]),
             _f("reconcile_exception", "Reconciliation exception", "text", "cash mismatch > tolerance"),
@@ -88,7 +88,7 @@ CATALOG: list[dict[str, Any]] = [
         "slug": "fraud-signal-decision-engine",
         "title": "Risk Decision System",
         "category": "Fintech & Reliability",
-        "summary": "Combine risk signals into explainable ALLOW, REVIEW, or BLOCK decisions.",
+        "summary": "Combines risk signals into explainable ALLOW, REVIEW or BLOCK decisions with reason codes.",
         "fields": [
             _f("velocity", "Velocity risk", "slider", .90, min=0.0, max=1.0, step=.05),
             _f("device_novelty", "Device novelty", "slider", .20, min=0.0, max=1.0, step=.05),
@@ -103,7 +103,7 @@ CATALOG: list[dict[str, Any]] = [
         "slug": "human-in-loop-risk-router",
         "title": "Human-in-the-Loop Risk Router",
         "category": "Agents & Control",
-        "summary": "Route an AI action to ALLOW, REVIEW, or DENY using consequence, confidence, reversibility, and sensitivity.",
+        "summary": "Routes an AI action to ALLOW, REVIEW or DENY using consequence, confidence, reversibility and sensitivity.",
         "fields": [
             _f("consequence", "Consequence", "slider", .70, min=0.0, max=1.0, step=.05),
             _f("confidence", "Model confidence", "slider", .85, min=0.0, max=1.0, step=.05),
@@ -115,7 +115,7 @@ CATALOG: list[dict[str, Any]] = [
         "slug": "incident-triage-agent",
         "title": "Incident Triage Agent",
         "category": "Fintech & Reliability",
-        "summary": "Paste an incident and get severity, owner, matched signals, and the next operational action.",
+        "summary": "Maps incident symptoms and impact signals to severity, owner and next action.",
         "fields": [
             _f("title", "Incident description", "textarea", "Checkout latency increased 9x and invoice callbacks are timing out."),
             _f("error_rate", "Error rate", "slider", .08, min=0.0, max=.20, step=.005),
@@ -127,7 +127,7 @@ CATALOG: list[dict[str, Any]] = [
         "slug": "instagram-intentional-discovery",
         "title": "Intentional Discovery Study",
         "category": "Discovery & Ranking",
-        "summary": "Re-rank a synthetic discovery feed using relevance, novelty, diversity, ragebait, and time budget.",
+        "summary": "Re-ranks a synthetic feed using relevance, novelty, creator diversity, quality and time budget.",
         "fields": [
             _f("interests", "Interests", "multiselect", ["design", "travel"], options=["design", "travel", "ai", "food", "fitness"]),
             _f("seen_creators", "Already-seen creators (comma separated)", "text", "c2"),
@@ -139,7 +139,7 @@ CATALOG: list[dict[str, Any]] = [
         "slug": "linkedin-career-discovery",
         "title": "Career Discovery Ranking Study",
         "category": "Discovery & Ranking",
-        "summary": "Rank synthetic opportunities using skill fit, growth direction, freshness, and location preference.",
+        "summary": "Ranks synthetic opportunities using skill fit, growth direction, freshness and location preference.",
         "fields": [
             _f("skills", "Current skills (comma separated)", "text", "product, ai, platform, payments"),
             _f("learn_next", "Skills to grow (comma separated)", "text", "agents, evals"),
@@ -151,7 +151,7 @@ CATALOG: list[dict[str, Any]] = [
         "slug": "mautam-evaluation",
         "title": "MAUTAM AI Product Evaluation",
         "category": "Evaluation & RAG",
-        "summary": "Evaluate AI product health across model quality, adoption, workflow success, trust, availability, and impact.",
+        "summary": "Measures AI product health across model quality, adoption, workflow success, trust, availability and impact.",
         "fields": [
             _f("model_quality", "Model & response quality", "slider", .88, min=0.0, max=1.0, step=.01),
             _f("adoption", "Adoption", "slider", .74, min=0.0, max=1.0, step=.01),
@@ -165,7 +165,7 @@ CATALOG: list[dict[str, Any]] = [
         "slug": "payment-provider-onboarding",
         "title": "Payment Provider Onboarding",
         "category": "Fintech & Reliability",
-        "summary": "Test provider capabilities and regional readiness before launch.",
+        "summary": "Checks provider capability, market support, risk and reliability before launch.",
         "fields": [
             _f("capabilities", "Provider capabilities", "multiselect", ["tokenization", "webhooks", "idempotency", "refunds", "disputes"], options=["tokenization", "webhooks", "idempotency", "refunds", "disputes"]),
             _f("countries", "Supported countries (comma separated)", "text", "BR, MX, US"),
@@ -182,7 +182,7 @@ CATALOG: list[dict[str, Any]] = [
         "slug": "prfaq-product-spec-agent",
         "title": "PRFAQ Product Spec Agent",
         "category": "Product Intelligence",
-        "summary": "Turn a product idea into a structured customer promise, metrics, risks, and open questions.",
+        "summary": "Structures an early product idea into a customer promise, metrics, risks, constraints and open questions.",
         "fields": [
             _f("name", "Product name", "text", "Close Copilot"),
             _f("customer", "Primary customer", "text", "finance analyst"),
@@ -195,7 +195,7 @@ CATALOG: list[dict[str, Any]] = [
         "slug": "product-prioritization-engine",
         "title": "Evidence-Weighted Prioritization",
         "category": "Product Intelligence",
-        "summary": "Rank product bets using impact, evidence, leverage, effort, dependencies, control burden, and opportunity cost.",
+        "summary": "Ranks product bets using impact, evidence, leverage, effort, dependencies and control cost.",
         "fields": [
             _f("items_json", "Product bets (JSON)", "textarea", '[{"name":"agent-dashboard","impact":0.7,"evidence":0.95,"leverage":0.8,"effort":0.3,"dependencies":0.2,"control_burden":0.2,"opportunity_cost":0.2},{"name":"autonomous-agent","impact":0.85,"evidence":0.35,"leverage":0.9,"effort":0.8,"dependencies":0.8,"control_burden":0.9,"opportunity_cost":0.7}]'),
         ],
@@ -204,7 +204,7 @@ CATALOG: list[dict[str, Any]] = [
         "slug": "rag-quality-gate",
         "title": "Grounded RAG Quality Gate",
         "category": "Evaluation & RAG",
-        "summary": "Check whether an answer is sufficiently grounded and correctly cited before it can ship.",
+        "summary": "Checks grounding, citations and contradictions before an answer is released.",
         "fields": [
             _f("question", "Question", "textarea", "What controls protect agent tool use?"),
             _f("answer", "Candidate answer", "textarea", "Tool calls use allowlists, human approval and audit traces."),
@@ -217,7 +217,7 @@ CATALOG: list[dict[str, Any]] = [
         "slug": "retrieval-eval-benchmark",
         "title": "Retrieval Evaluation Benchmark",
         "category": "Evaluation & RAG",
-        "summary": "Measure Precision@K, Recall@K, MRR, and nDCG for a retrieval result set.",
+        "summary": "Measures Precision@K, Recall@K, MRR and nDCG for a ranked retrieval result.",
         "fields": [
             _f("ranked", "Ranked document IDs (comma separated)", "text", "d3,d1,d9,d2,d7"),
             _f("relevant", "Relevant document IDs (comma separated)", "text", "d1,d2,d5"),
@@ -228,7 +228,7 @@ CATALOG: list[dict[str, Any]] = [
         "slug": "support-knowledge-os",
         "title": "Customer Support Knowledge OS",
         "category": "Evaluation & RAG",
-        "summary": "Ask a support question. The system answers from known evidence or escalates when confidence is too low.",
+        "summary": "Answers from the knowledge base when confidence clears the gate; otherwise escalates.",
         "fields": [
             _f("query", "Ask the support agent", "textarea", "When will my approved refund arrive?"),
             _f("articles_json", "Knowledge base (JSON)", "textarea", '[{"id":"refunds","text":"Approved refund arrives in five to seven business days."},{"id":"password","text":"Use account recovery to reset a forgotten password."}]'),
@@ -239,7 +239,7 @@ CATALOG: list[dict[str, Any]] = [
         "slug": "telemetry-anomaly-to-action",
         "title": "Telemetry Anomaly → Action",
         "category": "Product Intelligence",
-        "summary": "Detect a metric anomaly and translate it into a product action instead of stopping at an alert.",
+        "summary": "Detects metric anomalies and maps them to product or operational follow-up.",
         "fields": [
             _f("values", "Metric series (comma separated)", "text", "100,102,98,101,99,100,52,101,150"),
             _f("window", "Rolling window", "number", 5, min=2, max=50, step=1),
@@ -250,7 +250,7 @@ CATALOG: list[dict[str, Any]] = [
         "slug": "tool-permission-policy-engine",
         "title": "Agent Tool Permission Policy",
         "category": "Agents & Control",
-        "summary": "Evaluate a tool call against role, mutation risk, sensitivity, and approval state.",
+        "summary": "Applies role, action, sensitivity and approval policy to an agent tool call.",
         "fields": [
             _f("role", "Caller role", "select", "operator", options=["guest", "viewer", "analyst", "operator", "admin"]),
             _f("tool", "Tool", "text", "payments"),
@@ -263,7 +263,7 @@ CATALOG: list[dict[str, Any]] = [
         "slug": "voc-synthesis-studio",
         "title": "Voice of Customer Synthesis",
         "category": "Product Intelligence",
-        "summary": "Combine customer comments with usage evidence so loud anecdotes do not automatically become roadmap priority.",
+        "summary": "Combines customer comments with usage signals before ranking recurring product pain.",
         "fields": [
             _f("comments", "Customer comments (one per line)", "textarea", "Search is confusing and I cannot find the right report\nToo much manual workflow setup\nSearch is fast when it works"),
             _f("search", "Search usage signal", "slider", .80, min=0.0, max=1.0, step=.05),

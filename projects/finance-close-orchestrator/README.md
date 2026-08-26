@@ -2,9 +2,9 @@
 
 `Python · multi-agent workflow · fintech`
 
-This models finance close as a dependency-driven workflow across AP, AR, Treasury, reconciliation and GL, with a controller approval before completion.
+Finance close is modeled as a dependency-driven workflow across AP, AR, Treasury, reconciliation and GL, with controller approval before completion.
 
-The orchestration is built around **state, dependencies and exceptions** rather than free-form agent conversation. A downstream stage cannot move until its dependencies are complete, and exceptions remain visible instead of getting buried in a generated summary.
+The important state lives in the workflow, not in agent conversation. Downstream work waits for its dependencies, reconciliation exceptions stay visible, and final completion remains a controlled approval state.
 
 ## Architecture
 
@@ -30,8 +30,8 @@ python main.py --test
 
 - specialist ownership is explicit
 - dependency state is deterministic
-- exceptions stay visible
-- final completion remains a human-controlled state
+- exceptions remain first-class workflow state
+- final completion requires controller approval
 
 ## Signals
 
@@ -39,4 +39,4 @@ Close-cycle time, exception aging, reconciliation mismatch rate, manual touches,
 
 ## Next
 
-I want to persist workflow state, add idempotent task execution, event-driven retries, evidence attachments and role-based approval policy.
+Persist workflow state, add idempotent execution, event-driven retries, evidence attachments and role-based approval policy.

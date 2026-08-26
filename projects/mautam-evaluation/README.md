@@ -4,7 +4,7 @@
 
 `Python · AI evaluation · release gates`
 
-MAUTAM is a product-level scorecard for six things I want to see together when evaluating an AI capability:
+MAUTAM evaluates six parts of AI product health together:
 
 - **M**odel & Response Quality
 - **A**doption
@@ -13,16 +13,14 @@ MAUTAM is a product-level scorecard for six things I want to see together when e
 - **A**vailability & Health
 - **M**easurable Business Impact
 
-The current version combines a weighted score with hard gates for trust and availability, so a strong response-quality score cannot hide a serious control or reliability problem. The output is **SHIP / TUNE / SIMPLIFY / STOP**.
+The evaluator combines a weighted score with hard trust and availability gates, then returns **SHIP / TUNE / SIMPLIFY / STOP**. A strong response-quality score cannot cancel out a serious control or reliability failure.
 
 ## What the code models
 
-There are two evaluation levels:
+1. **Snapshot evaluation** — weighted contributions, weakest lens, configurable thresholds and trust/availability gate failures.
+2. **Window evaluation** — average lens health, per-lens volatility and **IMPROVING / STABLE / DEGRADING** trend across repeated snapshots.
 
-1. **Snapshot evaluation** — weighted contributions, weakest-lens detection, configurable release thresholds and explicit trust / availability gate failures.
-2. **Window evaluation** — average lens health, per-lens volatility and an improving / stable / degrading trend across repeated snapshots.
-
-The window view is there because one good run is not enough to describe product health.
+One good run is not enough to describe product health; the window view makes trend and volatility visible.
 
 ## Architecture
 
@@ -63,12 +61,15 @@ python main.py --test
 
 ## Signals
 
-A fuller implementation would pull from grounded-response evals, workflow completion, repeat usage, human-review outcomes, latency and tool failures, availability, and a business outcome such as time-to-value, risk reduced or cost avoided.
+A production implementation would pull from response evals, workflow completion, repeat usage, human-review outcomes, latency, tool failures, availability and a business outcome such as time-to-value, risk reduced or cost avoided.
 
 ## What it catches
 
-Examples: good model output with weak workflow completion, high usage with poor controls, strong offline scores with failing tools, or a point-in-time score that looks healthy while the underlying trend is getting worse.
+- good model output with weak workflow completion
+- high usage with poor controls
+- strong offline scores with failing tools
+- healthy point-in-time scores masking a deteriorating trend
 
 ## Next
 
-I want to add versioned trace windows, cohort trends, confidence intervals and capability-specific gates instead of one global threshold set.
+Add versioned trace windows, cohort trends, confidence intervals and capability-specific gates.

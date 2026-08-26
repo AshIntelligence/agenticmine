@@ -4,7 +4,7 @@
 
 This router uses **consequence, confidence, reversibility and data sensitivity** to choose **ALLOW / REVIEW / DENY**.
 
-I do not want model confidence to decide autonomy by itself. A draft email and an account deletion can have similar confidence scores but very different consequences if something goes wrong.
+Confidence alone is not enough to set autonomy. A draft email and an account deletion can carry similar confidence scores but very different failure costs.
 
 ## Architecture
 
@@ -19,7 +19,7 @@ flowchart LR
   R --> D[DENY]
 ```
 
-Reversibility is one of the main controls here: an action that can be safely undone can tolerate more automation than one that cannot.
+Reversibility changes the control level: an action that can be safely undone can tolerate more automation than an irreversible one.
 
 ## Run
 
@@ -30,10 +30,10 @@ python main.py --test
 
 ## Design tradeoffs
 
-- too much review creates a queue instead of useful automation
-- confidence helps, but it does not replace consequence
-- sensitive data can raise risk even when an action is technically reversible
-- denied actions should have a clear reason instead of failing silently
+- too much review turns automation into a queue
+- confidence informs the decision; consequence sets the ceiling
+- sensitive data can increase risk even when an action is reversible
+- denied actions return a reason instead of failing silently
 
 ## Signals
 
@@ -41,4 +41,4 @@ Approval rate, override rate, false escalation, incident severity, rollback succ
 
 ## Next
 
-I want to move from one global policy to capability-level rules with role context, policy versioning and an audit trail.
+Move from one global policy to capability-level rules with role context, policy versioning and an audit trail.

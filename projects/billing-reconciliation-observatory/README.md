@@ -4,10 +4,9 @@
 
 **[▶ Try it live](https://ash-intelligence-lab.streamlit.app/?product=billing-reconciliation-observatory)**
 
-### Product question
-**Where did financial truth diverge across usage → rating → invoice, and what should happen next?**
+This prototype follows the financial path from **usage → rating → invoice** and flags where expected and observed state diverge.
 
-A local service can be technically healthy while the final invoice is still wrong. This prototype follows the financial path across handoffs, compares expected and observed state, and turns a mismatch into an investigation-ready exception.
+A service can be technically healthy while the customer invoice is still wrong, so the check is end-to-end rather than component-by-component.
 
 ## What the code models
 
@@ -16,7 +15,7 @@ A local service can be technically healthy while the final invoice is still wron
 - tolerance policy
 - record-level reconciliation output
 
-The important product boundary is the **end-to-end invariant**, not the health of any single component.
+The core invariant is simple: the financial state at the end of the chain has to reconcile with the state that produced it.
 
 ## Run
 
@@ -25,6 +24,8 @@ python main.py
 python main.py --test
 ```
 
-A fuller version would keep authoritative expected/observed state, apply tolerance policy by event type, preserve lineage back to the source meter/rating record, and route ambiguous failures to controlled recovery rather than blind replay.
+## Next
+
+Add authoritative expected/observed state, event-specific tolerance policy, lineage back to the source meter or rating record, and controlled recovery for ambiguous failures.
 
 Part of the **DECIDE** pillar in the [Ash Intelligence Lab](../../README.md).

@@ -4,27 +4,24 @@
 
 **[▶ Try it live](https://ash-intelligence-lab.streamlit.app/?product=payment-provider-onboarding)**
 
-### Product question
-**Can this provider launch in this market without turning every integration into a bespoke project?**
-
 This prototype models provider onboarding as a reusable launch contract: API capabilities, supported markets and currencies, risk thresholds and operational health.
 
-The main design choice is what belongs in the **common platform contract** versus provider- or market-specific configuration. Some variation is real; copying the whole workflow for every provider is not.
+The design split is between the **shared provider contract** and provider- or market-specific configuration. Regional variation stays explicit without copying the entire integration workflow for every provider.
 
 ## What the code models
 
 - required provider capabilities
-- country / currency fit
+- country and currency fit
 - chargeback threshold
 - availability threshold
-- explicit ready / not-ready launch output
+- ready / not-ready launch status
 
-## Product principles
+## Design choices
 
 - keep the shared contract stable
-- represent real regional variation as configuration
-- make risk and health part of launch readiness
-- fail closed when a consequential requirement is missing
+- represent regional variation as configuration
+- include risk and reliability in launch readiness
+- fail closed when a required capability or control is missing
 
 ## Run
 

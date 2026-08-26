@@ -6,22 +6,20 @@
 
 This engine combines behavioral, payment and identity signals into explainable **ALLOW / REVIEW / BLOCK** states.
 
-The goal is not to block as much as possible. A fraud system can reduce loss and still be a poor product if false positives hurt good-user conversion or if too much traffic gets pushed into manual review.
+Fraud containment is only half the product. The decision also has to account for good-user friction and manual-review load.
 
 ## What the code models
 
-`DecisionPolicy` keeps review and block thresholds separate from signal weights, so policy can change without rewriting the scoring logic.
+`DecisionPolicy` keeps review and block thresholds separate from signal weights, so policy can move without rewriting scoring logic.
 
-`decide(...)` returns the score, action, top reason codes, per-signal contributions and the thresholds that produced the decision.
+`decide(...)` returns the score, action, top reason codes, per-signal contributions and the thresholds behind the decision.
 
-`batch_metrics(...)` runs labeled synthetic cases and reports four product-level tradeoffs:
+`batch_metrics(...)` runs labeled synthetic cases and reports:
 
 - block rate
 - review rate
 - fraud containment rate
 - good-user block rate
-
-That makes customer harm and operational load visible alongside fraud containment.
 
 ## Decision flow
 
@@ -48,4 +46,4 @@ The data is synthetic. This is a policy and decisioning prototype, not a trained
 
 ## Next
 
-I want to calibrate thresholds against a versioned labeled dataset, track review capacity, break false positives down by customer cohort and compare expected loss avoided with conversion impact.
+Calibrate thresholds against a versioned labeled dataset, model review capacity, break false positives down by cohort and compare expected loss avoided with conversion impact.

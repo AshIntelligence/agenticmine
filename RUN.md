@@ -1,6 +1,6 @@
 # Running Ash Intelligence locally
 
-## Interactive 20-product Demo Hub
+## Interactive Systems Lab
 
 ```bash
 python -m venv .venv
@@ -9,7 +9,7 @@ pip install -r requirements.txt
 streamlit run streamlit_app.py
 ```
 
-This is the main product-facing experience. It exposes all 20 systems as interactive cards and includes a grounded document-agent Q&A playground. The 20 product forms call the original engines under `projects/`.
+This is the main public-facing app. It includes all 20 systems, the CONTROL / EVALUATE / DECIDE navigation, and grounded document Q&A. Each form calls the Python engine under `projects/`.
 
 ## Original agent app
 
@@ -17,7 +17,7 @@ This is the main product-facing experience. It exposes all 20 systems as interac
 AGENT_MODE=mock streamlit run app.py
 ```
 
-The default mock mode is deterministic and does not need an API key.
+Mock mode is deterministic and does not need an API key.
 
 ## Run the project checks
 

@@ -26,7 +26,7 @@ def test_every_product_deep_link_renders_and_submits(item):
     assert not app.exception
     assert any(item["title"] in block.value for block in app.markdown)
 
-    run_button = next(button for button in app.button if button.label == "Run product")
+    run_button = next(button for button in app.button if button.label == "Run system")
     run_button.click().run(timeout=30)
 
     assert not app.exception
@@ -39,7 +39,7 @@ def test_grounded_agent_accepts_a_question_and_returns_evidence():
     app.run(timeout=30)
 
     assert not app.exception
-    ask_button = next(button for button in app.button if button.label == "Ask agent")
+    ask_button = next(button for button in app.button if button.label == "Run grounded Q&A")
     ask_button.click().run(timeout=30)
 
     assert not app.exception
@@ -56,5 +56,5 @@ def test_unknown_product_route_falls_back_to_curated_hub():
 
     assert not app.exception
     assert any(metric.label == "Runnable systems" and metric.value == "20" for metric in app.metric)
-    assert any(metric.label == "Product pillars" and metric.value == "3" for metric in app.metric)
-    assert any("AI product systems" in block.value for block in app.markdown)
+    assert any(metric.label == "Areas" and metric.value == "3" for metric in app.metric)
+    assert any("AI product decisions" in block.value for block in app.markdown)
