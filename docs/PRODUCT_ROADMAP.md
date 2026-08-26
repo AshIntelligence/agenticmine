@@ -1,7 +1,5 @@
 # Product roadmap
 
-I’m focusing the next round of work on a few areas that would make these systems more useful and more realistic.
-
 ## Reliability & state
 
 - Persist execution state for multi-step agent workflows
@@ -16,7 +14,7 @@ I’m focusing the next round of work on a few areas that would make these syste
 
 ## Human control
 
-- Build approval UX for consequential tool calls
+- Build approval UX for high-impact tool calls
 - Show reason codes and supporting evidence at review time
 - Support rollback where the underlying action can be reversed
 
@@ -28,6 +26,6 @@ I’m focusing the next round of work on a few areas that would make these syste
 
 ## Product surface
 
-- Continue the control-plane UI so agent state, eval gates, permissions, budgets and rollout decisions are visible in one place
+- Extend the control-plane UI so agent state, eval gates, permissions, budgets and rollout decisions stay visible in one place
 
 Current work is tracked in GitHub Issues.
