@@ -1,12 +1,25 @@
 # Intentional Discovery Study
 
-`Python · recommendation systems · product`
+**DECIDE · Ranking / attention**
 
-A personal product study using Instagram discovery as the surface. I am not affiliated with Instagram.
+**[▶ Try it live](https://ash-intelligence-lab.streamlit.app/?product=instagram-intentional-discovery)**
 
-The ranking objective balances **relevance, novelty, creator diversity, low-ragebait quality and a user-defined session budget**.
+### Product question
+**Can a discovery experience treat “done for now” as a successful outcome instead of optimizing every session for maximum time?**
 
-I wanted to explore a feed objective where **done for now** can be a successful outcome instead of a failure to maximize session length.
+This independent product study uses a synthetic social-discovery surface to explore a ranking objective that balances **relevance, novelty, creator diversity, low-ragebait quality and a user-defined attention budget**.
+
+The point is the objective function and product tradeoff: a ranking system can be technically effective while still optimizing for the wrong user outcome.
+
+## What the code models
+
+- stated interests
+- novelty and creator repetition
+- quality / ragebait penalty
+- item duration
+- finite session budget
+
+The result is an inspectable ranking rather than an attempt to recreate any production recommender.
 
 ## Run
 
@@ -15,4 +28,4 @@ python main.py
 python main.py --test
 ```
 
-The exercise is intentionally about the objective function and product tradeoff, not recreating Instagram's production recommender.
+Part of the **DECIDE** pillar in the [Ash Intelligence Lab](../../README.md).
