@@ -1,111 +1,146 @@
-# Ash Intelligence — Product & AI Systems
+# Ash Intelligence Lab
 
-This repo is my working lab for AI product systems: when an agent should act, when it should stop, how an answer is grounded, where review belongs, how usefulness is measured, and how cost and reliability stay visible.
+## AI product systems for decisions that matter.
 
-I keep most projects compact enough to follow the whole path from input to decision to output. Some are architecture experiments, some are product tools, and some are small implementations of ideas I wanted to test in code.
+**20 runnable systems. Three questions. One product philosophy.**
 
-**[▶ Live Demo Hub](https://ash-intelligence-lab.streamlit.app/)** · **[Profile](https://github.com/AshIntelligence)** · **[Active roadmap](https://github.com/AshIntelligence/agenticmine/issues)** · **[LinkedIn](https://www.linkedin.com/in/ashb27)**
+I use this lab to prototype the product boundary around AI: **when a system should act, how we know it is working, and how evidence becomes a consequential decision without losing control or human judgment.**
 
-## Interactive Demo Hub
+**[▶ Open the live lab](https://ash-intelligence-lab.streamlit.app/)** · **[GitHub profile](https://github.com/AshIntelligence)** · **[Roadmap](docs/PRODUCT_ROADMAP.md)** · **[LinkedIn](https://www.linkedin.com/in/ashb27)**
 
-All 20 systems have an interactive Streamlit surface. The UI calls the original engines under `projects/` rather than reimplementing their logic.
+| Pillar | The question |
+|---|---|
+| **CONTROL** | When should AI act, stop, or ask a human? |
+| **EVALUATE** | How do we know the product is actually working? |
+| **DECIDE** | How do we turn evidence and policy into explainable action? |
 
-**[Open the Interactive Systems Lab →](https://ash-intelligence-lab.streamlit.app/)**
+The projects are intentionally small enough to follow **input → decision → output**. Some are agent architecture experiments, some are product decision tools, and some make a platform or fintech tradeoff executable so I can test the assumption rather than only describe it.
 
-The hub includes searchable product cards, typed inputs, decision/result panels, direct product URLs, and a grounded document-agent playground where you can ask a question and inspect the retrieved evidence and evaluation trace.
+---
 
-Run the same experience locally:
+## Start here — three flagship systems
+
+### CONTROL · Agent Control Plane
+
+[![Agent Control Plane](docs/assets/control-plane.svg)](https://github.com/AshIntelligence/agent-control-plane)
+
+**Product question:** When is an agent actually allowed to act?
+
+Registry, tool authorization, approval gates, evaluation thresholds, cost and incident budgets, rollout state and audit events live in one inspectable control surface.
+
+**[▶ Try live](https://ash-intelligence-lab.streamlit.app/?product=agentic-product-control-plane)** · **[Standalone repo](https://github.com/AshIntelligence/agent-control-plane)** · **[Lab source](projects/agentic-product-control-plane/)**
+
+### EVALUATE · MAUTAM — AI Product Evaluation
+
+[![MAUTAM evaluation system](docs/assets/mautam-system.svg)](https://github.com/AshIntelligence/AI-Observability)
+
+**Product question:** How do you decide whether an AI capability deserves to ship, tune, simplify or stop?
+
+MAUTAM puts model quality beside adoption, workflow success, trust, availability and measurable impact so one good model score cannot hide a bad product.
+
+**[▶ Try live](https://ash-intelligence-lab.streamlit.app/?product=mautam-evaluation)** · **[Standalone repo](https://github.com/AshIntelligence/AI-Observability)** · **[Lab source](projects/mautam-evaluation/)**
+
+### DECIDE · Risk Decision System
+
+[![Risk Decision System](docs/assets/risk-decision-system.svg)](https://github.com/AshIntelligence/risk-decision-system)
+
+**Product question:** How do you contain risk earlier without turning protection into unnecessary customer harm?
+
+Behavioral, payment and identity signals become explainable **ALLOW / REVIEW / BLOCK** decisions while policy thresholds, reason codes, review load and good-user harm stay visible.
+
+**[▶ Try live](https://ash-intelligence-lab.streamlit.app/?product=fraud-signal-decision-engine)** · **[Standalone repo](https://github.com/AshIntelligence/risk-decision-system)** · **[Lab source](projects/fraud-signal-decision-engine/)**
+
+---
+
+## CONTROL — define the boundary of action
+
+| System | What product decision it makes |
+|---|---|
+| **[Agent Control Plane](projects/agentic-product-control-plane/)** | Authorize tools and decide whether rollout should HOLD, CANARY or advance to PRODUCTION. |
+| **[Agent vs Workflow Router](projects/agent-vs-workflow-router/)** | Choose deterministic workflow, assisted agent or autonomous agent from variability, consequence and state. |
+| **[Human-in-the-Loop Risk Router](projects/human-in-loop-risk-router/)** | Decide when confidence is enough to act and when consequence requires human review. |
+| **[Agent Tool Permission Policy](projects/tool-permission-policy-engine/)** | Make mutation risk, data sensitivity, role and approval state explicit before a tool can execute. |
+| **[Finance Close Orchestrator](projects/finance-close-orchestrator/)** | Sequence dependency-bound finance work while keeping exceptions and controller approval as real workflow states. |
+
+## EVALUATE — turn evidence into product action
+
+| System | What it helps evaluate |
+|---|---|
+| **[MAUTAM](projects/mautam-evaluation/)** | Product-level AI health across quality, adoption, workflow, trust, availability and impact. |
+| **[Grounded RAG Quality Gate](projects/rag-quality-gate/)** | Whether an answer is sufficiently supported and correctly cited before release. |
+| **[Retrieval Evaluation Benchmark](projects/retrieval-eval-benchmark/)** | Precision@K, Recall@K, MRR and nDCG before generation obscures retrieval quality. |
+| **[Customer Support Knowledge OS](projects/support-knowledge-os/)** | Whether available evidence is strong enough to answer or the product should escalate. |
+| **[Telemetry Anomaly → Product Action](projects/telemetry-anomaly-to-action/)** | Which metric anomalies should change rollout, diagnosis or product priority. |
+| **[Experiment Analysis Copilot](projects/experiment-analysis-copilot/)** | Whether experiment evidence supports SHIP, HOLD or STOP instead of treating significance as the whole decision. |
+| **[Voice of Customer Synthesis](projects/voc-synthesis-studio/)** | Where qualitative pain and observed usage reinforce—or contradict—each other. |
+| **[Evidence-Weighted Prioritization](projects/product-prioritization-engine/)** | How impact and evidence trade against effort, dependencies, control burden and opportunity cost. |
+| **[PRFAQ Product Spec Agent](projects/prfaq-product-spec-agent/)** | Turn an early idea into an explicit promise, metrics, constraints, risks and open questions. |
+
+## DECIDE — make consequential choices explainable
+
+| System | What decision it makes |
+|---|---|
+| **[Risk Decision System](projects/fraud-signal-decision-engine/)** | Convert synthetic risk signals into explainable ALLOW / REVIEW / BLOCK states. |
+| **[Payment Provider Onboarding](projects/payment-provider-onboarding/)** | Decide whether provider capabilities, regional support, risk and health are ready for launch. |
+| **[Billing Reconciliation Observatory](projects/billing-reconciliation-observatory/)** | Find where usage → rating → invoice state diverges and surface the financial mismatch. |
+| **[Incident Triage Agent](projects/incident-triage-agent/)** | Turn noisy symptoms into severity, owner and next action before generating narrative. |
+| **[Career Discovery Ranking Study](projects/linkedin-career-discovery/)** | Rank synthetic opportunities using fit, growth direction, freshness and location preference. |
+| **[Intentional Discovery Study](projects/instagram-intentional-discovery/)** | Re-rank a synthetic feed around relevance, novelty, diversity and a finite attention budget. |
+
+### Plus: grounded document Q&A
+
+The live lab also includes a document-intelligence playground that retrieves evidence first, answers from that evidence, cites the chunks and exposes its evaluation trace.
+
+**[▶ Open the live lab](https://ash-intelligence-lab.streamlit.app/)**
+
+---
+
+## Why I build this way
+
+A PRD can hide an assumption. A small executable system usually cannot.
+
+I prototype far enough to test questions such as:
+
+- Is an agent actually better than a deterministic workflow here?
+- What state must remain authoritative outside the model?
+- Which actions need approval, auditability or rollback?
+- What metric would make me change the roadmap rather than merely report it?
+- What happens when confidence is low, a dependency fails, or a decision is irreversible?
+- Can another person trace why the system produced this outcome?
+
+The goal is not maximum code. The goal is **product judgment you can inspect.**
+
+## Run locally
 
 ```bash
 pip install -r requirements.txt
 streamlit run streamlit_app.py
 ```
 
-## Current focus
-
-### MAUTAM — AI product evaluation
-
-[![MAUTAM evaluation system](docs/assets/mautam-system.svg)](https://github.com/AshIntelligence/AI-Observability)
-
-MAUTAM combines model and response quality with adoption, workflow success, trust, availability and measurable impact. The current implementation maps those signals to **SHIP / TUNE / SIMPLIFY / STOP**.
-
-**[▶ Try live →](https://ash-intelligence-lab.streamlit.app/?product=mautam-evaluation)** · **[Standalone repo →](https://github.com/AshIntelligence/AI-Observability)** · **[Lab source →](projects/mautam-evaluation/)**
-
-### Agentic Product Control Plane
-
-[![Agentic Product Control Plane](docs/assets/control-plane.svg)](https://github.com/AshIntelligence/agent-control-plane)
-
-This brings agent registration, eval gates, tool permissions, cost budgets, incident thresholds and rollout state into one control surface. Change the inputs and see why an agent is held, moved to canary, or promoted.
-
-**[▶ Try live →](https://ash-intelligence-lab.streamlit.app/?product=agentic-product-control-plane)** · **[Standalone repo →](https://github.com/AshIntelligence/agent-control-plane)** · **[Lab source →](projects/agentic-product-control-plane/)** · **[Interactive UI source →](docs/control-plane-demo.html)**
-
-### Risk Decision System
-
-[![Risk decision system](docs/assets/risk-decision-system.svg)](https://github.com/AshIntelligence/risk-decision-system)
-
-A small risk-decision engine that keeps signals, policy, human review and action separate. I use it to explore the balance between earlier containment and unnecessary customer friction.
-
-**[▶ Try live →](https://ash-intelligence-lab.streamlit.app/?product=fraud-signal-decision-engine)** · **[Standalone repo →](https://github.com/AshIntelligence/risk-decision-system)** · **[Lab source →](projects/fraud-signal-decision-engine/)** · **[Human-review router →](projects/human-in-loop-risk-router/)**
-
-## Agent architecture & control
-
-- [Agent vs Workflow Router](projects/agent-vs-workflow-router/) — chooses deterministic, assisted or autonomous behavior from variability, consequence and state.
-- [Human-in-the-Loop Risk Router](projects/human-in-loop-risk-router/) — maps consequence, confidence, reversibility and sensitivity to `ALLOW / REVIEW / DENY`.
-- [Agent Tool Permission Policy](projects/tool-permission-policy-engine/) — role-aware tool policy with approval and audit boundaries.
-- [Finance Close Orchestrator](projects/finance-close-orchestrator/) — dependency-bound specialist stages, exceptions and controller approval.
-
-## Evaluation, retrieval & evidence
-
-- [Grounded RAG Quality Gate](projects/rag-quality-gate/) — evidence coverage and citation checks before answer release.
-- [Retrieval Evaluation Benchmark](projects/retrieval-eval-benchmark/) — Precision@K, Recall@K, MRR and nDCG.
-- [Customer Support Knowledge OS](projects/support-knowledge-os/) — answer with evidence or escalate.
-- Document intelligence and source-grounded comparison also live under [`agents/`](agents/).
-
-## Fintech, risk & reliability
-
-- [Payment Provider Onboarding](projects/payment-provider-onboarding/)
-- [Billing Reconciliation Observatory](projects/billing-reconciliation-observatory/)
-- [Incident Triage Agent](projects/incident-triage-agent/)
-- [Telemetry Anomaly → Product Action](projects/telemetry-anomaly-to-action/)
-
-## Product discovery & decision systems
-
-- [Voice of Customer Synthesis](projects/voc-synthesis-studio/)
-- [PRFAQ Product Spec Agent](projects/prfaq-product-spec-agent/)
-- [Evidence-Weighted Product Prioritization](projects/product-prioritization-engine/)
-- [Experiment Analysis Copilot](projects/experiment-analysis-copilot/)
-
-## Product studies
-
-- [Career Discovery Ranking Study](projects/linkedin-career-discovery/) — an independent product study using LinkedIn career discovery as the surface; unaffiliated with LinkedIn.
-- [Intentional Discovery Study](projects/instagram-intentional-discovery/) — an independent recommender study using Instagram as the surface; unaffiliated with Instagram.
-
-## A few choices I use across the projects
-
-- If a normal workflow is clearer and safer, I use the workflow.
-- Permissions, state, budgets and rollout rules stay explicit instead of disappearing inside model behavior.
-- High-consequence actions have a real review path, not just a warning in the UI.
-- Retrieval, evals and telemetry are part of the product loop because they change what I ship next.
-
-## Run locally
+Run the underlying systems without the UI:
 
 ```bash
 python tools/run_systems.py
 ```
 
-Each project has a local demo and a self-check. `streamlit_app.py` is the interactive 20-product hub; the original agent app remains in `app.py`, `agents/`, `core/` and `evals/`.
-
-Run one system directly, for example:
+Or run one directly:
 
 ```bash
 python projects/mautam-evaluation/main.py
 python projects/mautam-evaluation/main.py --test
 ```
 
-The product roadmap lives in [`docs/PRODUCT_ROADMAP.md`](docs/PRODUCT_ROADMAP.md), and current work is tracked in GitHub Issues.
+The Streamlit layer calls the original engines under `projects/`; it does not reimplement their decision logic.
 
-## Data boundary
+## Repository map
 
-Everything under `projects/` uses synthetic inputs. I do not publish employer or customer confidential data here.
+- `projects/` — 20 compact decision systems
+- `streamlit_app.py` — interactive demo hub
+- `ui/` — adapters, scenarios and input guidance
+- `agents/` — grounded document, job-research and product-design agents
+- `core/` — retrieval, tool runtime, evaluation, tracing and LLM abstractions
+- `evals/` — behavioral evaluation cases and results
+- `tests/` — system, scenario, link and Streamlit coverage
+- `docs/` — architecture, deployment and roadmap notes
 
-The LinkedIn and Instagram studies are independent explorations and do not imply affiliation or endorsement.
+All demos use synthetic or public-safe inputs.
