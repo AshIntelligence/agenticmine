@@ -4,12 +4,9 @@
 
 **[▶ Try it live](https://ash-intelligence-lab.streamlit.app/?product=product-prioritization-engine)**
 
-### Product question
-**Which product bet deserves capacity when impact is only one part of the decision?**
-
 This prototype ranks product bets using **impact, evidence and leverage** against **effort, dependencies, control burden and opportunity cost**.
 
-The score is a decision aid, not an oracle. Two ideas with similar scores can still deserve different choices if one creates a platform option, carries irreversible risk or blocks another critical path.
+The score supports the decision; it does not replace judgment. Two bets with similar scores can still warrant different choices when one creates platform leverage, carries irreversible risk or blocks another critical path.
 
 ## What the code makes visible
 
@@ -20,7 +17,7 @@ The score is a decision aid, not an oracle. Two ideas with similar scores can st
 - control burden
 - opportunity cost
 
-The point is to make the tradeoff inspectable before a roadmap conversation becomes a contest of confidence.
+The value is in making the tradeoff visible before the roadmap discussion.
 
 ## Run
 
