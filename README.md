@@ -1,10 +1,8 @@
 # Ash Intelligence — Product & AI Systems
 
-[![System checks](https://github.com/AshIntelligence/agenticmine/actions/workflows/tests.yml/badge.svg)](https://github.com/AshIntelligence/agenticmine/actions/workflows/tests.yml)
+This repo is my working lab for AI product systems: when an agent should act, when it should stop, how an answer is grounded, where review belongs, how usefulness is measured, and how cost and reliability stay visible.
 
-I use this repo to build through questions I keep running into in AI product work: when an agent should act, when it should stop, how to ground an answer, how to review a risky action, how to measure whether something is actually useful, and how to keep cost and reliability visible.
-
-I keep most projects compact enough that I can follow the whole path from input to decision to output. Some are architecture experiments, some are product tools, and some are small implementations of ideas I wanted to test in code.
+I keep most projects compact enough to follow the whole path from input to decision to output. Some are architecture experiments, some are product tools, and some are small implementations of ideas I wanted to test in code.
 
 **[▶ Live Demo Hub](https://ash-intelligence-lab.streamlit.app/)** · **[Profile](https://github.com/AshIntelligence)** · **[Active roadmap](https://github.com/AshIntelligence/agenticmine/issues)** · **[LinkedIn](https://www.linkedin.com/in/ashb27)**
 
