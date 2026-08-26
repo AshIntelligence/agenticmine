@@ -24,10 +24,9 @@ st.set_page_config(
 st.markdown(
     """
 <style>
-.block-container {max-width: 1240px; padding-top: 2rem; padding-bottom: 4rem;}
-[data-testid="stSidebar"] {border-right: 1px solid rgba(120,120,140,.20);}
-.ash-eyebrow {font-size:.78rem; letter-spacing:.12em; font-weight:800; opacity:.72; text-transform:uppercase;}
-.ash-hero {font-size:clamp(2.6rem,7vw,5.8rem); line-height:.92; letter-spacing:-.055em; font-weight:900; margin:.35rem 0 1rem;}
+.block-container {max-width: 1240px; padding-top: 4.25rem; padding-bottom: 4rem;}
+.ash-eyebrow {font-size:.84rem; line-height:1.2; letter-spacing:.12em; font-weight:800; opacity:.78; text-transform:uppercase; margin:0 0 .55rem;}
+.ash-hero {font-size:clamp(2.6rem,7vw,5.8rem); line-height:.92; letter-spacing:-.055em; font-weight:900; margin:0 0 1rem;}
 .ash-sub {font-size:1.08rem; max-width:800px; opacity:.82; margin-bottom:1.25rem;}
 .ash-pill {display:inline-block; border:1px solid rgba(120,120,140,.28); border-radius:999px; padding:.32rem .62rem; margin:.15rem .3rem .15rem 0; font-size:.80rem; opacity:.86;}
 .ash-answer {padding:1rem 1.15rem; border-radius:14px; border:1px solid rgba(120,120,140,.25); background:rgba(120,120,140,.06);}
