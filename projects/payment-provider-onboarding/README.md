@@ -1,10 +1,30 @@
 # Payment Provider Onboarding
 
-`Python · fintech platform`
+**DECIDE · Fintech platform**
 
-This models provider onboarding as a reusable launch contract: required API capabilities, supported markets and currencies, risk thresholds and operational health.
+**[▶ Try it live](https://ash-intelligence-lab.streamlit.app/?product=payment-provider-onboarding)**
 
-The main design question is how much belongs in the common platform versus provider-specific configuration. Some variation is real, but treating every provider as a one-off makes expansion slower and harder to operate.
+### Product question
+**Can this provider launch in this market without turning every integration into a bespoke project?**
+
+This prototype models provider onboarding as a reusable launch contract: API capabilities, supported markets and currencies, risk thresholds and operational health.
+
+The main design choice is what belongs in the **common platform contract** versus provider- or market-specific configuration. Some variation is real; copying the whole workflow for every provider is not.
+
+## What the code models
+
+- required provider capabilities
+- country / currency fit
+- chargeback threshold
+- availability threshold
+- explicit ready / not-ready launch output
+
+## Product principles
+
+- keep the shared contract stable
+- represent real regional variation as configuration
+- make risk and health part of launch readiness
+- fail closed when a consequential requirement is missing
 
 ## Run
 
@@ -13,9 +33,4 @@ python main.py
 python main.py --test
 ```
 
-## Design notes
-
-- a common provider contract keeps integrations comparable
-- regional requirements stay explicit instead of leaking into the platform core
-- launch can fail closed when risk or health gates are not met
-- provider variation is configuration rather than copied workflow logic
+Part of the **DECIDE** pillar in the [Ash Intelligence Lab](../../README.md).
