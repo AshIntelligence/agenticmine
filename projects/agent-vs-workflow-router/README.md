@@ -2,9 +2,9 @@
 
 `Python · agent architecture · mechanism selection`
 
-Before I build an agent, I want a clear reason not to use a normal workflow. This router looks at variability, ambiguity, statefulness, tool surface and consequence, then chooses a **deterministic workflow**, **assisted agent** or **autonomous agent**.
+An agent is a mechanism choice, not the default. This router scores task variability, ambiguity, statefulness, tool surface and consequence, then selects a **deterministic workflow**, **assisted agent** or **autonomous agent**.
 
-Consequence matters most when deciding how much autonomy to allow. A task can be highly variable and still be the wrong place for autonomous action if a mistake is expensive or hard to reverse.
+Consequence has the strongest effect on autonomy. A highly variable task can still belong in a controlled workflow when a wrong action is expensive or hard to reverse.
 
 ## Architecture
 
@@ -21,7 +21,7 @@ flowchart LR
   R --> P[Required controls]
 ```
 
-The router can add controls with the mechanism: higher consequence adds human approval, a larger tool surface adds allowlists, and stateful work adds checkpoints.
+The selected mechanism also drives controls: higher consequence adds human approval, broader tool access adds allowlists, and stateful work adds checkpoints.
 
 ## Run
 
@@ -30,13 +30,13 @@ python main.py
 python main.py --test
 ```
 
-## Design notes
+## Design choices
 
-- autonomy is a product choice, not the default
-- consequence lowers the amount of autonomy I am comfortable with
-- tool permissions and state recovery are part of the routing decision
-- deterministic workflows are often the better answer when predictability matters more than flexibility
+- autonomy has to earn its complexity
+- consequence reduces the acceptable autonomy level
+- tool permissions and recovery are part of the mechanism decision
+- predictable work stays deterministic when flexibility adds little value
 
 ## Next
 
-I want to calibrate the thresholds with observed failure cost, task variance, escalation rate and user overrides instead of keeping fixed weights.
+Calibrate the thresholds with observed failure cost, task variance, escalation rate and user overrides.
