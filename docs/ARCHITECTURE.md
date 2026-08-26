@@ -4,8 +4,8 @@
 
 1. Break work into stages when the stages fail differently.
 2. Retrieve or call tools before asking a model to synthesize an answer.
-3. Keep traces and eval results outside the model call so they can be inspected later.
-4. Put approval around consequential actions instead of relying on model confidence alone.
+3. Keep traces and eval results outside the model call so they can be reviewed later.
+4. Put approval around high-impact actions instead of relying on model confidence alone.
 5. Keep a deterministic mode so the orchestration can still be tested when a model provider is unavailable.
 
 ## Document Intelligence
@@ -24,7 +24,7 @@ flowchart LR
     V --> T
 ```
 
-The local lexical retriever keeps the retrieval step easy to inspect and easy to replace later with hybrid or vector retrieval.
+The local lexical retriever keeps retrieval easy to test and easy to replace later with hybrid or vector search.
 
 ## Research / Job Discovery
 
@@ -42,7 +42,7 @@ flowchart LR
     K --> X[Explanation + evidence/gaps]
 ```
 
-Fit coverage and current-query relevance stay separate because they answer different questions.
+Fit coverage and query relevance stay separate because they answer different questions.
 
 ## Product / Technical Design
 
@@ -56,4 +56,4 @@ flowchart TD
     O --> S[Schema eval]
 ```
 
-The stages separate problem definition, architecture, evaluation and failure analysis so one generated response is not doing all four jobs at once.
+The stages separate problem definition, architecture, evaluation and failure analysis instead of asking one model response to do all four jobs.
