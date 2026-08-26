@@ -4,12 +4,9 @@
 
 **[▶ Try it live](https://ash-intelligence-lab.streamlit.app/?product=support-knowledge-os)**
 
-### Product question
-**Is the available evidence strong enough to answer—or should the product escalate?**
+This prototype answers a support question only when the available evidence clears a confidence gate. Otherwise it returns **ESCALATE**.
 
-This prototype returns a support answer only when retrieved evidence clears a confidence gate. Otherwise the system produces an escalation state instead of manufacturing certainty.
-
-**Escalation is a valid product outcome.** Deflection only matters when the answer is trustworthy enough that the customer does not have to reopen the issue later.
+Escalation is a normal product state. Deflection only helps when the answer is reliable enough that the customer does not have to reopen the issue later.
 
 ## What the code models
 
@@ -17,9 +14,11 @@ This prototype returns a support answer only when retrieved evidence clears a co
 - query-to-evidence matching
 - confidence threshold
 - **ANSWER / ESCALATE** behavior
-- sources behind the answer
+- source IDs behind the answer
 
-A production version would add article freshness, entitlement context, escalation reason codes and closed-loop feedback from resolved cases.
+## Next
+
+Add article freshness, entitlement context, escalation reason codes and closed-loop feedback from resolved cases.
 
 ## Run
 
