@@ -4,21 +4,18 @@
 
 **[▶ Try it live](https://ash-intelligence-lab.streamlit.app/?product=voc-synthesis-studio)**
 
-### Product question
-**When customer comments and observed behavior disagree, what evidence should actually change the roadmap?**
+This prototype combines qualitative feedback with usage evidence before ranking recurring product pain.
 
-This prototype combines qualitative feedback with quantitative usage evidence so the loudest anecdote does not automatically become the highest-priority product problem.
-
-Qualitative input explains intent and unmet need. Telemetry shows prevalence and behavior. I want both in the same decision surface before turning feedback into roadmap priority.
+Customer comments explain intent and unmet need. Telemetry shows prevalence and behavior. The two belong in the same decision view, especially when they disagree.
 
 ## What the code surfaces
 
 - recurring customer themes
-- qualitative severity / sentiment
+- qualitative severity and sentiment
 - supporting or contradicting usage signals
-- an evidence-backed product question
+- evidence behind the priority
 
-The output is designed to answer: **who experiences the problem, how often, how severe it is, and whether behavior supports what users are saying.**
+The output helps answer four practical questions: who sees the problem, how often, how severe it is, and whether observed behavior supports the feedback.
 
 ## Run
 
