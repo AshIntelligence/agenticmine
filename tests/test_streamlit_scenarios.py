@@ -21,9 +21,9 @@ def test_each_product_explains_inputs_and_runs_two_guided_scenarios(item):
     markdown_text = " ".join(str(block.value) for block in app.markdown)
     visible_text = " ".join(str(block.value) for block in [*app.markdown, *app.info])
     assert "How to use this demo" in markdown_text
-    assert "What this does" in markdown_text
-    assert "What to enter" in markdown_text
-    assert "What you get" in markdown_text
+    assert "What it does" in markdown_text
+    assert "Inputs" in markdown_text
+    assert "Output" in markdown_text
     assert GUIDANCE[slug]["what"] in visible_text
 
     outputs = []
@@ -32,7 +32,7 @@ def test_each_product_explains_inputs_and_runs_two_guided_scenarios(item):
         sample_button.click().run(timeout=30)
         assert not app.exception
 
-        run_button = next(button for button in app.button if button.label == "Run product")
+        run_button = next(button for button in app.button if button.label == "Run system")
         run_button.click().run(timeout=30)
         assert not app.exception
         assert f"demo-error:{slug}" not in app.session_state
@@ -51,7 +51,7 @@ def test_stable_telemetry_result_is_explained_in_plain_english():
 
     stable = next(button for button in app.button if button.label == "Load: Stable metric")
     stable.click().run(timeout=30)
-    run_button = next(button for button in app.button if button.label == "Run product")
+    run_button = next(button for button in app.button if button.label == "Run system")
     run_button.click().run(timeout=30)
 
     assert not app.exception
