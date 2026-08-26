@@ -4,12 +4,9 @@
 
 **[▶ Try it live](https://ash-intelligence-lab.streamlit.app/?product=telemetry-anomaly-to-action)**
 
-### Product question
-**What should a metric anomaly change in the product—not merely on a dashboard?**
+This prototype detects rolling anomalies and maps each signal to a product or operational follow-up.
 
-This prototype detects rolling anomalies and maps each signal to an investigation or product action.
-
-The useful output is not a red chart. It is the decision the signal changes: **rollout, prioritization, diagnosis or follow-up work.**
+A red chart is not the outcome. The useful part is what changes next: **rollout, prioritization, diagnosis or follow-up work**.
 
 ## What the code models
 
@@ -18,7 +15,9 @@ The useful output is not a red chart. It is the decision the signal changes: **r
 - anomalous points
 - action-oriented output
 
-A fuller version would combine business and system metrics, attach ownership, suppress repeated noise and track whether the recommended action actually improved the underlying signal.
+## Next
+
+Combine business and system metrics, attach ownership, suppress repeated noise and track whether the follow-up improved the underlying signal.
 
 ## Run
 
