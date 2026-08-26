@@ -39,17 +39,17 @@ PILLAR_BY_SLUG = {
 
 PILLAR_COPY = {
     "CONTROL": {
-        "question": "When should AI act, stop, or ask a human?",
-        "detail": "Agency boundaries · permissions · approvals · orchestration · rollout",
+        "question": "Set the boundary of action.",
+        "detail": "Autonomy · permissions · approvals · orchestration · rollout",
         "flagship": "agentic-product-control-plane",
     },
     "EVALUATE": {
-        "question": "How do we know the product is actually working?",
-        "detail": "Grounding · evals · adoption · observability · experiments · evidence",
+        "question": "Measure whether the product works.",
+        "detail": "Grounding · evals · adoption · reliability · experiments · impact",
         "flagship": "mautam-evaluation",
     },
     "DECIDE": {
-        "question": "How do we turn evidence and policy into explainable action?",
+        "question": "Turn evidence and policy into action.",
         "detail": "Risk · fintech · ranking · incidents · policy tradeoffs",
         "flagship": "fraud-signal-decision-engine",
     },
@@ -62,7 +62,7 @@ FEATURED_SLUGS = [
 ]
 
 st.set_page_config(
-    page_title="Ash Intelligence · Interactive Systems Lab",
+    page_title="Ash Intelligence · Systems Lab",
     page_icon="✦",
     layout="wide",
     initial_sidebar_state="auto",
@@ -78,7 +78,6 @@ st.markdown(
 .ash-pill {display:inline-block; border:1px solid rgba(120,120,140,.28); border-radius:999px; padding:.32rem .62rem; margin:.15rem .3rem .15rem 0; font-size:.80rem; opacity:.86;}
 .ash-answer {padding:1rem 1.15rem; border-radius:14px; border:1px solid rgba(120,120,140,.25); background:rgba(120,120,140,.06);}
 .ash-guide {font-size:.92rem; opacity:.88;}
-.ash-thesis {font-size:1.16rem; line-height:1.6; max-width:920px; margin:.8rem 0 1.6rem; opacity:.9;}
 </style>
 """,
     unsafe_allow_html=True,
@@ -233,13 +232,13 @@ def _result_panel(slug: str, result: Any) -> None:
 def _field_help(field: dict[str, Any]) -> str | None:
     label = field["label"].lower()
     if "json" in label:
-        return "Must remain valid JSON. If you do not want to edit JSON, load one of the sample scenarios above."
+        return "Keep this as valid JSON. Load a sample scenario if you prefer not to edit the JSON directly."
     if "comma separated" in label:
-        return "Enter plain values separated by commas; spaces are optional."
+        return "Enter values separated by commas."
     if "one per line" in label or "one passage per line" in label:
-        return "Enter one item on each line."
+        return "Enter one item per line."
     if field["kind"] == "slider" and field.get("min") == 0.0 and field.get("max") == 1.0:
-        return "0 is the minimum signal value; 1 is the maximum. See the explanation above for what high/low means here."
+        return "0 is the minimum signal value; 1 is the maximum."
     return None
 
 
@@ -305,24 +304,24 @@ def _render_guidance(slug: str) -> None:
     c1, c2, c3 = st.columns(3)
     with c1:
         with st.container(border=True):
-            st.markdown("**1 · What this does**")
+            st.markdown("**1 · What it does**")
             st.write(guide["what"])
     with c2:
         with st.container(border=True):
-            st.markdown("**2 · What to enter**")
+            st.markdown("**2 · Inputs**")
             st.write(guide["inputs"])
     with c3:
         with st.container(border=True):
-            st.markdown("**3 · What you get**")
+            st.markdown("**3 · Output**")
             st.write(guide["output"])
 
-    st.markdown("#### Try a guided scenario")
-    st.caption("Load a sample, then click **Run product**. The two scenarios are designed to produce different behavior.")
+    st.markdown("#### Sample scenarios")
+    st.caption("Each sample exercises a different decision path. Load one, then run the system.")
     scenarios = SCENARIOS[slug]
     cols = st.columns(3)
     with cols[0]:
-        if st.button("Reset to starter example", key=f"reset:{slug}", use_container_width=True):
-            _load_payload(slug, {}, "Starter example", "The pre-filled baseline scenario for this product.")
+        if st.button("Reset", key=f"reset:{slug}", use_container_width=True):
+            _load_payload(slug, {}, "Starter example", "Baseline values for this system.")
             st.rerun()
     for index, scenario in enumerate(scenarios, start=1):
         with cols[index]:
@@ -332,7 +331,7 @@ def _render_guidance(slug: str) -> None:
 
     loaded = st.session_state.get(f"demo-loaded:{slug}")
     if loaded:
-        st.info(f"**Loaded scenario:** {loaded['label']}  \n{loaded['why']}")
+        st.info(f"**Loaded:** {loaded['label']}  \n{loaded['why']}")
 
 
 def _render_product(slug: str) -> None:
@@ -348,7 +347,7 @@ def _render_product(slug: str) -> None:
             _set_product(None)
             st.rerun()
 
-    st.markdown('<span class="ash-pill">Original Python engine</span><span class="ash-pill">Synthetic inputs</span><span class="ash-pill">No API key required</span>', unsafe_allow_html=True)
+    st.markdown('<span class="ash-pill">Python engine</span><span class="ash-pill">Synthetic inputs</span><span class="ash-pill">No API key required</span>', unsafe_allow_html=True)
 
     _render_guidance(slug)
 
@@ -361,7 +360,7 @@ def _render_product(slug: str) -> None:
                     payload[field["name"]] = _render_field(slug, field)
             else:
                 payload[field["name"]] = _render_field(slug, field)
-        submitted = st.form_submit_button("Run product", type="primary", use_container_width=True)
+        submitted = st.form_submit_button("Run system", type="primary", use_container_width=True)
 
     result_key = f"demo-result:{slug}"
     error_key = f"demo-error:{slug}"
@@ -375,29 +374,29 @@ def _render_product(slug: str) -> None:
                 st.session_state[result_key] = run_product(slug, payload)
                 st.session_state.pop(error_key, None)
             except Exception as exc:
-                st.session_state[error_key] = f"I couldn't process this input. Load a sample scenario or check the formats above. Details: {exc}"
+                st.session_state[error_key] = f"Input could not be processed. Load a sample scenario or check the formats above. Details: {exc}"
                 st.session_state.pop(result_key, None)
 
     if error_key in st.session_state:
         st.error(st.session_state[error_key])
     if result_key in st.session_state:
         _result_panel(slug, st.session_state[result_key])
-        st.info("**How to read this result:** " + GUIDANCE[slug]["output"])
+        st.info("**Result guide:** " + GUIDANCE[slug]["output"])
 
     st.divider()
     st.markdown("### Under the hood")
-    st.write("The interface calls the original Python engine under `projects/`; decision logic is not duplicated in the UI.")
+    st.write("The interface calls the Python engine under `projects/`; the UI does not duplicate the decision logic.")
     st.page_link(f"https://github.com/AshIntelligence/agenticmine/tree/main/projects/{slug}", label="View source + architecture ↗")
 
 
 def _render_grounded_agent() -> None:
     st.markdown('<div class="ash-eyebrow">EVALUATE · GROUNDED Q&A</div>', unsafe_allow_html=True)
-    st.markdown("# Ask a grounded document agent")
-    st.write("Ask a natural-language question over two synthetic policy documents. The agent retrieves evidence first, answers from that evidence, cites the chunks, and exposes its evaluation trace.")
-    st.info("**What to enter:** a plain-English question about availability, rollout, controls, or other facts in the two synthetic policy documents. A starter question is already filled in.")
+    st.markdown("# Grounded document Q&A")
+    st.write("Ask a question across two policy documents. The agent retrieves relevant passages first, answers from those passages, cites them and shows the evaluation trace.")
+    st.info("Enter a question about availability, rollout, controls or another fact in the documents. A starter question is pre-filled.")
 
     question = st.text_input("Question", value="What availability targets do the documents specify, and where do they conflict?", key="grounded-agent-question")
-    if st.button("Ask agent", type="primary", use_container_width=True):
+    if st.button("Run grounded Q&A", type="primary", use_container_width=True):
         old_mode = os.environ.get("AGENT_MODE")
         os.environ["AGENT_MODE"] = "mock"
         try:
@@ -432,7 +431,7 @@ selected = st.session_state.get("selected_product")
 with st.sidebar:
     st.markdown("## Ash Intelligence")
     st.caption("CONTROL · EVALUATE · DECIDE")
-    if st.button("⌂ Demo Hub", use_container_width=True):
+    if st.button("⌂ Systems Lab", use_container_width=True):
         _set_product(None)
         st.rerun()
     if st.button("✦ Grounded Q&A", use_container_width=True):
@@ -442,7 +441,7 @@ with st.sidebar:
         st.rerun()
     st.divider()
     title_by_slug = {item["slug"]: item["title"] for item in CATALOG}
-    options = ["— Select a product —"] + [title_by_slug[item["slug"]] for item in CATALOG]
+    options = ["— Select a system —"] + [title_by_slug[item["slug"]] for item in CATALOG]
     choice = st.selectbox("Jump to a system", options, index=0, key="product-jump")
     if choice != options[0]:
         target = next(slug for slug, title in title_by_slug.items() if title == choice)
@@ -458,21 +457,20 @@ elif selected in CATALOG_BY_SLUG:
     _render_product(selected)
 else:
     check = verify_catalog()
-    st.markdown('<div class="ash-eyebrow">ASH INTELLIGENCE · HANDS-ON PRODUCT SYSTEMS</div>', unsafe_allow_html=True)
-    st.markdown('<div class="ash-hero">AI product systems<br>for decisions that matter.</div>', unsafe_allow_html=True)
-    st.markdown('<div class="ash-sub">Twenty runnable prototypes, organized around three questions: <b>When should AI act?</b> <b>How do we know it works?</b> <b>How do we keep consequential decisions explainable and under control?</b></div>', unsafe_allow_html=True)
-    st.markdown('<div class="ash-thesis"><b>I prototype far enough to test the product judgment.</b> Change the inputs, inspect the state and see what the system decides—not just what a PRD says it should do.</div>', unsafe_allow_html=True)
+    st.markdown('<div class="ash-eyebrow">ASH INTELLIGENCE · SYSTEMS LAB</div>', unsafe_allow_html=True)
+    st.markdown('<div class="ash-hero">AI product decisions,<br>made concrete.</div>', unsafe_allow_html=True)
+    st.markdown('<div class="ash-sub">20 runnable prototypes across agent control, evaluation, risk, fintech, reliability and product discovery. Each exposes the inputs, state, rules and output behind the decision.</div>', unsafe_allow_html=True)
 
     m1, m2, m3, m4 = st.columns(4)
     m1.metric("Runnable systems", check["count"])
-    m2.metric("Product pillars", "3")
+    m2.metric("Areas", "3")
     m3.metric("Guided scenarios", "40")
     m4.metric("Grounded Q&A", "Included")
 
     if check["missing"] or not check["unique"]:
         st.error(f"Catalog integrity issue: {check}")
 
-    st.markdown("## Three questions. Three flagships.")
+    st.markdown("## Start with the flagships")
     pillar_cols = st.columns(3)
     for index, pillar in enumerate(("CONTROL", "EVALUATE", "DECIDE")):
         copy = PILLAR_COPY[pillar]
@@ -482,31 +480,17 @@ else:
                 st.caption(pillar)
                 st.markdown(f"### {copy['question']}")
                 st.write(copy["detail"])
-                st.markdown(f"**Start with: {flagship['title']}**")
+                st.markdown(f"**{flagship['title']}**")
                 st.caption(flagship["summary"])
-                if st.button("Open flagship →", key=f"flagship:{pillar}", use_container_width=True):
+                if st.button("Open →", key=f"flagship:{pillar}", use_container_width=True):
                     _open_product(flagship["slug"])
-
-    st.markdown("## Featured systems")
-    featured_cols = st.columns(3)
-    for index, slug in enumerate(FEATURED_SLUGS):
-        item = CATALOG_BY_SLUG[slug]
-        pillar = PILLAR_BY_SLUG[slug]
-        with featured_cols[index]:
-            with st.container(border=True):
-                st.caption(pillar)
-                st.markdown(f"### {item['title']}")
-                st.write(item["summary"])
-                st.caption("2 guided scenarios · inspectable Python engine")
-                if st.button("Try the system →", key=f"featured:{slug}", use_container_width=True):
-                    _open_product(slug)
 
     st.divider()
     st.markdown("## Explore the full lab")
-    st.write("The remaining systems are supporting experiments under the same three pillars—not twenty equal, unrelated demos.")
+    st.write("The rest of the systems extend the same three areas: control, evaluation and decisioning.")
 
     search = st.text_input("Find a system", placeholder="Try: risk, RAG, finance, agent, experiment…")
-    pillar_filter = st.segmented_control("Pillar", ["All", "CONTROL", "EVALUATE", "DECIDE"], default="All")
+    pillar_filter = st.segmented_control("Area", ["All", "CONTROL", "EVALUATE", "DECIDE"], default="All")
 
     filtered = []
     for item in CATALOG:
@@ -534,11 +518,11 @@ else:
     with st.container(border=True):
         c1, c2 = st.columns([1.2, .8])
         with c1:
-            st.markdown("## Grounded Q&A agent")
-            st.write("Retrieve evidence first, answer from the evidence, cite the chunks and inspect the evaluation trace.")
+            st.markdown("## Grounded document Q&A")
+            st.write("Retrieve evidence, answer from the retrieved passages, cite the source chunks and review the evaluation trace.")
         with c2:
             if st.button("Open grounded Q&A →", type="primary", use_container_width=True):
                 st.session_state["selected_product"] = "__agent__"
                 st.rerun()
 
-    st.caption("The lab uses synthetic or public-safe inputs. Each card calls the original engine under `projects/`; the UI does not duplicate the decision logic.")
+    st.caption("All demos use synthetic or public-safe inputs. Each card calls the Python engine under `projects/`; the UI does not duplicate the decision logic.")
