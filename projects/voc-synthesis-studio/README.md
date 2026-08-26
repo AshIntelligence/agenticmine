@@ -1,10 +1,24 @@
 # Voice of Customer Synthesis
 
-`Python · product discovery`
+**EVALUATE · Product discovery**
 
-This combines qualitative comments and sentiment with quantitative usage evidence to rank recurring product pain.
+**[▶ Try it live](https://ash-intelligence-lab.streamlit.app/?product=voc-synthesis-studio)**
 
-Qualitative feedback alone can overrepresent the loudest cohort, while telemetry alone cannot explain intent or unmet need. I want both in the same view before turning feedback into a product decision.
+### Product question
+**When customer comments and observed behavior disagree, what evidence should actually change the roadmap?**
+
+This prototype combines qualitative feedback with quantitative usage evidence so the loudest anecdote does not automatically become the highest-priority product problem.
+
+Qualitative input explains intent and unmet need. Telemetry shows prevalence and behavior. I want both in the same decision surface before turning feedback into roadmap priority.
+
+## What the code surfaces
+
+- recurring customer themes
+- qualitative severity / sentiment
+- supporting or contradicting usage signals
+- an evidence-backed product question
+
+The output is designed to answer: **who experiences the problem, how often, how severe it is, and whether behavior supports what users are saying.**
 
 ## Run
 
@@ -13,4 +27,4 @@ python main.py
 python main.py --test
 ```
 
-The output is a product question with evidence: who experiences the problem, how often, how severe it is, and whether observed behavior supports what users are saying.
+Part of the **EVALUATE** pillar in the [Ash Intelligence Lab](../../README.md).
