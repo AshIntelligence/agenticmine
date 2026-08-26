@@ -4,12 +4,9 @@
 
 **[▶ Try it live](https://ash-intelligence-lab.streamlit.app/?product=instagram-intentional-discovery)**
 
-### Product question
-**Can a discovery experience treat “done for now” as a successful outcome instead of optimizing every session for maximum time?**
+This independent study uses a synthetic social-discovery surface to test a ranking objective built around **relevance, novelty, creator diversity, content quality and a finite attention budget**.
 
-This independent product study uses a synthetic social-discovery surface to explore a ranking objective that balances **relevance, novelty, creator diversity, low-ragebait quality and a user-defined attention budget**.
-
-The point is the objective function and product tradeoff: a ranking system can be technically effective while still optimizing for the wrong user outcome.
+The ranking deliberately allows **done for now** to be a good outcome. Session length is not treated as the only measure of success.
 
 ## What the code models
 
@@ -19,7 +16,7 @@ The point is the objective function and product tradeoff: a ranking system can b
 - item duration
 - finite session budget
 
-The result is an inspectable ranking rather than an attempt to recreate any production recommender.
+The implementation is a small ranking study, not an attempt to reproduce a production recommender.
 
 ## Run
 
