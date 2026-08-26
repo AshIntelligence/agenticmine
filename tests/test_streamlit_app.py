@@ -49,10 +49,12 @@ def test_grounded_agent_accepts_a_question_and_returns_evidence():
     assert result["evals"]
 
 
-def test_unknown_product_route_falls_back_to_hub():
+def test_unknown_product_route_falls_back_to_curated_hub():
     app = AppTest.from_file(str(HUB))
     app.query_params["product"] = "not-a-real-product"
     app.run(timeout=30)
 
     assert not app.exception
-    assert any(metric.label == "Interactive systems" and metric.value == "20" for metric in app.metric)
+    assert any(metric.label == "Runnable systems" and metric.value == "20" for metric in app.metric)
+    assert any(metric.label == "Product pillars" and metric.value == "3" for metric in app.metric)
+    assert any("AI product systems" in block.value for block in app.markdown)
