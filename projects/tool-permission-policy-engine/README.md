@@ -1,10 +1,25 @@
 # Agent Tool Permission Policy
 
-`Python · agent safety · platform`
+**CONTROL · Agent safety / platform**
 
-This evaluates a tool call against **role, action type, data sensitivity and approval state**.
+**[▶ Try it live](https://ash-intelligence-lab.streamlit.app/?product=tool-permission-policy-engine)**
 
-API scopes are not enough for product-level agent control. A refund, export or deletion can require different approval and reversibility rules even when the same service account technically has access.
+### Product question
+**Having technical access is not the same as having permission to take this action—so what should the agent be allowed to do?**
+
+This prototype evaluates a tool call against **role, action type, data sensitivity and approval state**.
+
+A refund, publish, transfer or deletion can require different approval and reversibility rules even when the same service identity technically has API access. The policy boundary therefore sits between planning and execution.
+
+## What the code models
+
+- caller role
+- requested tool + action
+- data sensitivity
+- approval state
+- explicit **ALLOW / REVIEW / DENY** outcome
+
+A fuller version would version policy, attach each decision to the audit trace and carry a stable request/action ID through approval and execution.
 
 ## Run
 
@@ -13,4 +28,4 @@ python main.py
 python main.py --test
 ```
 
-I would put this policy boundary between planning and tool execution, version every policy decision and attach the result to the audit trace.
+Part of the **CONTROL** pillar in the [Ash Intelligence Lab](../../README.md).
