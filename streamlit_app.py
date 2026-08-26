@@ -14,6 +14,53 @@ from ui.demo_ux import GUIDANCE, SCENARIOS, validate_payload
 
 ROOT = Path(__file__).resolve().parent
 
+PILLAR_BY_SLUG = {
+    "agent-vs-workflow-router": "CONTROL",
+    "agentic-product-control-plane": "CONTROL",
+    "finance-close-orchestrator": "CONTROL",
+    "human-in-loop-risk-router": "CONTROL",
+    "tool-permission-policy-engine": "CONTROL",
+    "mautam-evaluation": "EVALUATE",
+    "rag-quality-gate": "EVALUATE",
+    "retrieval-eval-benchmark": "EVALUATE",
+    "support-knowledge-os": "EVALUATE",
+    "telemetry-anomaly-to-action": "EVALUATE",
+    "experiment-analysis-copilot": "EVALUATE",
+    "voc-synthesis-studio": "EVALUATE",
+    "product-prioritization-engine": "EVALUATE",
+    "prfaq-product-spec-agent": "EVALUATE",
+    "fraud-signal-decision-engine": "DECIDE",
+    "payment-provider-onboarding": "DECIDE",
+    "billing-reconciliation-observatory": "DECIDE",
+    "incident-triage-agent": "DECIDE",
+    "linkedin-career-discovery": "DECIDE",
+    "instagram-intentional-discovery": "DECIDE",
+}
+
+PILLAR_COPY = {
+    "CONTROL": {
+        "question": "When should AI act, stop, or ask a human?",
+        "detail": "Agency boundaries · permissions · approvals · orchestration · rollout",
+        "flagship": "agentic-product-control-plane",
+    },
+    "EVALUATE": {
+        "question": "How do we know the product is actually working?",
+        "detail": "Grounding · evals · adoption · observability · experiments · evidence",
+        "flagship": "mautam-evaluation",
+    },
+    "DECIDE": {
+        "question": "How do we turn evidence and policy into explainable action?",
+        "detail": "Risk · fintech · ranking · incidents · policy tradeoffs",
+        "flagship": "fraud-signal-decision-engine",
+    },
+}
+
+FEATURED_SLUGS = [
+    "agentic-product-control-plane",
+    "mautam-evaluation",
+    "fraud-signal-decision-engine",
+]
+
 st.set_page_config(
     page_title="Ash Intelligence · Interactive Systems Lab",
     page_icon="✦",
@@ -27,10 +74,11 @@ st.markdown(
 .block-container {max-width: 1240px; padding-top: 4.25rem; padding-bottom: 4rem;}
 .ash-eyebrow {font-size:.84rem; line-height:1.2; letter-spacing:.12em; font-weight:800; opacity:.78; text-transform:uppercase; margin:0 0 .55rem;}
 .ash-hero {font-size:clamp(2.6rem,7vw,5.8rem); line-height:.92; letter-spacing:-.055em; font-weight:900; margin:0 0 1rem;}
-.ash-sub {font-size:1.08rem; max-width:800px; opacity:.82; margin-bottom:1.25rem;}
+.ash-sub {font-size:1.08rem; max-width:920px; opacity:.82; margin-bottom:1.25rem;}
 .ash-pill {display:inline-block; border:1px solid rgba(120,120,140,.28); border-radius:999px; padding:.32rem .62rem; margin:.15rem .3rem .15rem 0; font-size:.80rem; opacity:.86;}
 .ash-answer {padding:1rem 1.15rem; border-radius:14px; border:1px solid rgba(120,120,140,.25); background:rgba(120,120,140,.06);}
 .ash-guide {font-size:.92rem; opacity:.88;}
+.ash-thesis {font-size:1.16rem; line-height:1.6; max-width:920px; margin:.8rem 0 1.6rem; opacity:.9;}
 </style>
 """,
     unsafe_allow_html=True,
@@ -289,9 +337,10 @@ def _render_guidance(slug: str) -> None:
 
 def _render_product(slug: str) -> None:
     item = CATALOG_BY_SLUG[slug]
+    pillar = PILLAR_BY_SLUG[slug]
     top_left, top_right = st.columns([1, .25])
     with top_left:
-        st.markdown(f'<div class="ash-eyebrow">{item["category"]}</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="ash-eyebrow">{pillar} · {item["category"]}</div>', unsafe_allow_html=True)
         st.markdown(f"# {item['title']}")
         st.write(item["summary"])
     with top_right:
@@ -342,7 +391,7 @@ def _render_product(slug: str) -> None:
 
 
 def _render_grounded_agent() -> None:
-    st.markdown('<div class="ash-eyebrow">GROUNDED Q&A</div>', unsafe_allow_html=True)
+    st.markdown('<div class="ash-eyebrow">EVALUATE · GROUNDED Q&A</div>', unsafe_allow_html=True)
     st.markdown("# Ask a grounded document agent")
     st.write("Ask a natural-language question over two synthetic policy documents. The agent retrieves evidence first, answers from that evidence, cites the chunks, and exposes its evaluation trace.")
     st.info("**What to enter:** a plain-English question about availability, rollout, controls, or other facts in the two synthetic policy documents. A starter question is already filled in.")
@@ -382,7 +431,7 @@ selected = st.session_state.get("selected_product")
 
 with st.sidebar:
     st.markdown("## Ash Intelligence")
-    st.caption("Interactive Systems Lab")
+    st.caption("CONTROL · EVALUATE · DECIDE")
     if st.button("⌂ Demo Hub", use_container_width=True):
         _set_product(None)
         st.rerun()
@@ -394,7 +443,7 @@ with st.sidebar:
     st.divider()
     title_by_slug = {item["slug"]: item["title"] for item in CATALOG}
     options = ["— Select a product —"] + [title_by_slug[item["slug"]] for item in CATALOG]
-    choice = st.selectbox("Jump to a product", options, index=0, key="product-jump")
+    choice = st.selectbox("Jump to a system", options, index=0, key="product-jump")
     if choice != options[0]:
         target = next(slug for slug, title in title_by_slug.items() if title == choice)
         if target != selected:
@@ -409,53 +458,87 @@ elif selected in CATALOG_BY_SLUG:
     _render_product(selected)
 else:
     check = verify_catalog()
-    st.markdown('<div class="ash-eyebrow">ASH INTELLIGENCE · INTERACTIVE SYSTEMS LAB</div>', unsafe_allow_html=True)
-    st.markdown('<div class="ash-hero">Touch the product.<br>Change the decision.</div>', unsafe_allow_html=True)
-    st.markdown('<div class="ash-sub">Twenty runnable prototypes across agent control, evaluation, RAG, fintech, reliability and product intelligence. Open a system, change the inputs, and inspect the decision.</div>', unsafe_allow_html=True)
+    st.markdown('<div class="ash-eyebrow">ASH INTELLIGENCE · HANDS-ON PRODUCT SYSTEMS</div>', unsafe_allow_html=True)
+    st.markdown('<div class="ash-hero">AI product systems<br>for decisions that matter.</div>', unsafe_allow_html=True)
+    st.markdown('<div class="ash-sub">Twenty runnable prototypes, organized around three questions: <b>When should AI act?</b> <b>How do we know it works?</b> <b>How do we keep consequential decisions explainable and under control?</b></div>', unsafe_allow_html=True)
+    st.markdown('<div class="ash-thesis"><b>I prototype far enough to test the product judgment.</b> Change the inputs, inspect the state and see what the system decides—not just what a PRD says it should do.</div>', unsafe_allow_html=True)
 
     m1, m2, m3, m4 = st.columns(4)
-    m1.metric("Interactive systems", check["count"])
-    m2.metric("Python engines", check["count"] if not check["missing"] else "Check failed")
+    m1.metric("Runnable systems", check["count"])
+    m2.metric("Product pillars", "3")
     m3.metric("Guided scenarios", "40")
     m4.metric("Grounded Q&A", "Included")
 
     if check["missing"] or not check["unique"]:
         st.error(f"Catalog integrity issue: {check}")
 
+    st.markdown("## Three questions. Three flagships.")
+    pillar_cols = st.columns(3)
+    for index, pillar in enumerate(("CONTROL", "EVALUATE", "DECIDE")):
+        copy = PILLAR_COPY[pillar]
+        flagship = CATALOG_BY_SLUG[copy["flagship"]]
+        with pillar_cols[index]:
+            with st.container(border=True):
+                st.caption(pillar)
+                st.markdown(f"### {copy['question']}")
+                st.write(copy["detail"])
+                st.markdown(f"**Start with: {flagship['title']}**")
+                st.caption(flagship["summary"])
+                if st.button("Open flagship →", key=f"flagship:{pillar}", use_container_width=True):
+                    _open_product(flagship["slug"])
+
+    st.markdown("## Featured systems")
+    featured_cols = st.columns(3)
+    for index, slug in enumerate(FEATURED_SLUGS):
+        item = CATALOG_BY_SLUG[slug]
+        pillar = PILLAR_BY_SLUG[slug]
+        with featured_cols[index]:
+            with st.container(border=True):
+                st.caption(pillar)
+                st.markdown(f"### {item['title']}")
+                st.write(item["summary"])
+                st.caption("2 guided scenarios · inspectable Python engine")
+                if st.button("Try the system →", key=f"featured:{slug}", use_container_width=True):
+                    _open_product(slug)
+
+    st.divider()
+    st.markdown("## Explore the full lab")
+    st.write("The remaining systems are supporting experiments under the same three pillars—not twenty equal, unrelated demos.")
+
     search = st.text_input("Find a system", placeholder="Try: risk, RAG, finance, agent, experiment…")
-    categories = ["All"] + sorted({item["category"] for item in CATALOG})
-    category = st.segmented_control("Category", categories, default="All")
+    pillar_filter = st.segmented_control("Pillar", ["All", "CONTROL", "EVALUATE", "DECIDE"], default="All")
 
     filtered = []
     for item in CATALOG:
-        haystack = f"{item['title']} {item['summary']} {item['category']}".lower()
+        pillar = PILLAR_BY_SLUG[item["slug"]]
+        haystack = f"{item['title']} {item['summary']} {item['category']} {pillar}".lower()
         if search and search.lower() not in haystack:
             continue
-        if category and category != "All" and item["category"] != category:
+        if pillar_filter and pillar_filter != "All" and pillar != pillar_filter:
             continue
         filtered.append(item)
 
-    st.markdown("## Interactive products")
-    cols = st.columns(3)
-    for index, item in enumerate(filtered):
-        with cols[index % 3]:
-            with st.container(border=True):
-                st.caption(item["category"].upper())
-                st.markdown(f"### {item['title']}")
-                st.write(item["summary"])
-                st.caption("2 guided scenarios")
-                if st.button("Open product →", key=f"open:{item['slug']}", use_container_width=True):
-                    _open_product(item["slug"])
+    with st.expander(f"Browse all {len(filtered)} matching systems", expanded=False):
+        cols = st.columns(3)
+        for index, item in enumerate(filtered):
+            pillar = PILLAR_BY_SLUG[item["slug"]]
+            with cols[index % 3]:
+                with st.container(border=True):
+                    st.caption(f"{pillar} · {item['category'].upper()}")
+                    st.markdown(f"### {item['title']}")
+                    st.write(item["summary"])
+                    if st.button("Open system →", key=f"open:{item['slug']}", use_container_width=True):
+                        _open_product(item["slug"])
 
     st.divider()
     with st.container(border=True):
         c1, c2 = st.columns([1.2, .8])
         with c1:
             st.markdown("## Grounded Q&A agent")
-            st.write("Ask questions over synthetic policy documents, inspect retrieved evidence, and see the evaluation trace.")
+            st.write("Retrieve evidence first, answer from the evidence, cite the chunks and inspect the evaluation trace.")
         with c2:
             if st.button("Open grounded Q&A →", type="primary", use_container_width=True):
                 st.session_state["selected_product"] = "__agent__"
                 st.rerun()
 
-    st.caption("All product interactions use synthetic or public-safe inputs. The 20 system cards call the original engines under `projects/`; the UI does not reimplement their decision logic.")
+    st.caption("The lab uses synthetic or public-safe inputs. Each card calls the original engine under `projects/`; the UI does not duplicate the decision logic.")
