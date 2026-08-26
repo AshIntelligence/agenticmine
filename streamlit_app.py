@@ -18,7 +18,7 @@ st.set_page_config(
     page_title="Ash Intelligence · Interactive Systems Lab",
     page_icon="✦",
     layout="wide",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="auto",
 )
 
 st.markdown(
@@ -26,10 +26,10 @@ st.markdown(
 <style>
 .block-container {max-width: 1240px; padding-top: 2rem; padding-bottom: 4rem;}
 [data-testid="stSidebar"] {border-right: 1px solid rgba(120,120,140,.20);}
-.ash-eyebrow {font-size:.76rem; letter-spacing:.12em; font-weight:800; opacity:.62; text-transform:uppercase;}
+.ash-eyebrow {font-size:.78rem; letter-spacing:.12em; font-weight:800; opacity:.72; text-transform:uppercase;}
 .ash-hero {font-size:clamp(2.6rem,7vw,5.8rem); line-height:.92; letter-spacing:-.055em; font-weight:900; margin:.35rem 0 1rem;}
-.ash-sub {font-size:1.08rem; max-width:800px; opacity:.78; margin-bottom:1.25rem;}
-.ash-pill {display:inline-block; border:1px solid rgba(120,120,140,.28); border-radius:999px; padding:.32rem .62rem; margin:.15rem .3rem .15rem 0; font-size:.78rem; opacity:.78;}
+.ash-sub {font-size:1.08rem; max-width:800px; opacity:.82; margin-bottom:1.25rem;}
+.ash-pill {display:inline-block; border:1px solid rgba(120,120,140,.28); border-radius:999px; padding:.32rem .62rem; margin:.15rem .3rem .15rem 0; font-size:.80rem; opacity:.86;}
 .ash-answer {padding:1rem 1.15rem; border-radius:14px; border:1px solid rgba(120,120,140,.25); background:rgba(120,120,140,.06);}
 .ash-guide {font-size:.92rem; opacity:.88;}
 </style>
@@ -170,6 +170,10 @@ def _result_panel(slug: str, result: Any) -> None:
         return
 
     if isinstance(result, list):
+        if slug == "telemetry-anomaly-to-action" and not result:
+            st.success("No anomalies detected")
+            st.caption("No point exceeded the configured anomaly threshold for this series.")
+            return
         if result and isinstance(result[0], dict):
             st.dataframe(result, use_container_width=True, hide_index=True)
         else:
@@ -265,8 +269,8 @@ def _render_guidance(slug: str) -> None:
             st.markdown("**3 · What you get**")
             st.write(guide["output"])
 
-    st.markdown("#### Don't want to invent test data?")
-    st.caption("Load a sample below, then click **Run product**. The two samples intentionally exercise different behavior.")
+    st.markdown("#### Try a guided scenario")
+    st.caption("Load a sample, then click **Run product**. The two scenarios are designed to produce different behavior.")
     scenarios = SCENARIOS[slug]
     cols = st.columns(3)
     with cols[0]:
@@ -296,7 +300,7 @@ def _render_product(slug: str) -> None:
             _set_product(None)
             st.rerun()
 
-    st.markdown('<span class="ash-pill">Original Python engine</span><span class="ash-pill">Synthetic/public-safe inputs</span><span class="ash-pill">No API key required</span>', unsafe_allow_html=True)
+    st.markdown('<span class="ash-pill">Original Python engine</span><span class="ash-pill">Synthetic inputs</span><span class="ash-pill">No API key required</span>', unsafe_allow_html=True)
 
     _render_guidance(slug)
 
@@ -304,7 +308,11 @@ def _render_product(slug: str) -> None:
     payload: dict[str, Any] = {}
     with st.form(f"product-form-{slug}", border=True):
         for field in item["fields"]:
-            payload[field["name"]] = _render_field(slug, field)
+            if "json" in field["label"].lower():
+                with st.expander("Advanced · Edit sample dataset (JSON)", expanded=False):
+                    payload[field["name"]] = _render_field(slug, field)
+            else:
+                payload[field["name"]] = _render_field(slug, field)
         submitted = st.form_submit_button("Run product", type="primary", use_container_width=True)
 
     result_key = f"demo-result:{slug}"
@@ -329,13 +337,13 @@ def _render_product(slug: str) -> None:
         st.info("**How to read this result:** " + GUIDANCE[slug]["output"])
 
     st.divider()
-    st.markdown("### What this demonstrates")
-    st.write("The UI is only an interaction layer. The decision or analysis above is produced by the same engine under `projects/` that is exercised by the repository's automated checks.")
+    st.markdown("### Under the hood")
+    st.write("The interface calls the original Python engine under `projects/`; decision logic is not duplicated in the UI.")
     st.page_link(f"https://github.com/AshIntelligence/agenticmine/tree/main/projects/{slug}", label="View source + architecture ↗")
 
 
 def _render_grounded_agent() -> None:
-    st.markdown('<div class="ash-eyebrow">BONUS AGENT PLAYGROUND</div>', unsafe_allow_html=True)
+    st.markdown('<div class="ash-eyebrow">GROUNDED Q&A</div>', unsafe_allow_html=True)
     st.markdown("# Ask a grounded document agent")
     st.write("Ask a natural-language question over two synthetic policy documents. The agent retrieves evidence first, answers from that evidence, cites the chunks, and exposes its evaluation trace.")
     st.info("**What to enter:** a plain-English question about availability, rollout, controls, or other facts in the two synthetic policy documents. A starter question is already filled in.")
@@ -379,7 +387,7 @@ with st.sidebar:
     if st.button("⌂ Demo Hub", use_container_width=True):
         _set_product(None)
         st.rerun()
-    if st.button("✦ Ask an Agent", use_container_width=True):
+    if st.button("✦ Grounded Q&A", use_container_width=True):
         st.session_state["selected_product"] = "__agent__"
         if "product" in st.query_params:
             del st.query_params["product"]
@@ -404,13 +412,13 @@ else:
     check = verify_catalog()
     st.markdown('<div class="ash-eyebrow">ASH INTELLIGENCE · INTERACTIVE SYSTEMS LAB</div>', unsafe_allow_html=True)
     st.markdown('<div class="ash-hero">Touch the product.<br>Change the decision.</div>', unsafe_allow_html=True)
-    st.markdown('<div class="ash-sub">Twenty runnable AI/product system prototypes, exposed as interactive product experiences. Every product page now explains what it does, what to enter, what the result means, and includes two one-click sample scenarios.</div>', unsafe_allow_html=True)
+    st.markdown('<div class="ash-sub">Twenty runnable prototypes across agent control, evaluation, RAG, fintech, reliability and product intelligence. Open a system, change the inputs, and inspect the decision.</div>', unsafe_allow_html=True)
 
     m1, m2, m3, m4 = st.columns(4)
     m1.metric("Interactive systems", check["count"])
-    m2.metric("Engine coverage", "20 / 20" if not check["missing"] else "Check failed")
+    m2.metric("Python engines", check["count"] if not check["missing"] else "Check failed")
     m3.metric("Guided scenarios", "40")
-    m4.metric("Agent playground", "Grounded Q&A")
+    m4.metric("Grounded Q&A", "Included")
 
     if check["missing"] or not check["unique"]:
         st.error(f"Catalog integrity issue: {check}")
@@ -436,7 +444,7 @@ else:
                 st.caption(item["category"].upper())
                 st.markdown(f"### {item['title']}")
                 st.write(item["summary"])
-                st.caption("Includes 2 guided sample scenarios")
+                st.caption("2 guided scenarios")
                 if st.button("Open product →", key=f"open:{item['slug']}", use_container_width=True):
                     _open_product(item["slug"])
 
@@ -444,8 +452,8 @@ else:
     with st.container(border=True):
         c1, c2 = st.columns([1.2, .8])
         with c1:
-            st.markdown("## Ask an actual agent")
-            st.write("A grounded document-intelligence agent is also wired into the hub. Type a question, retrieve evidence, get a cited answer, and inspect the eval trace.")
+            st.markdown("## Grounded Q&A agent")
+            st.write("Ask questions over synthetic policy documents, inspect retrieved evidence, and see the evaluation trace.")
         with c2:
             if st.button("Open grounded Q&A →", type="primary", use_container_width=True):
                 st.session_state["selected_product"] = "__agent__"
