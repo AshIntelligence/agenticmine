@@ -1,15 +1,16 @@
 # Ash Intelligence Lab
 
-**20 runnable product prototypes across AI control, evaluation, risk, fintech, reliability and product discovery.**
+**21 runnable product prototypes across orchestration, AI control, evaluation, risk, fintech, reliability and product discovery.**
 
 I built the lab to make product mechanics testable. Each system exposes the inputs, rules, state and output behind a decision instead of stopping at a PRD or architecture diagram.
 
-**[▶ Open the live lab](https://ash-intelligence-lab.streamlit.app/)** · **[GitHub profile](https://github.com/AshIntelligence)** · **[Roadmap](docs/PRODUCT_ROADMAP.md)** · **[LinkedIn](https://www.linkedin.com/in/ashb27)**
+**[▶ Open the live lab](https://ash-intelligence-lab.streamlit.app/)** · **[▶ Open Ash OS](https://ash-intelligence-lab.streamlit.app/Ash_OS)** · **[GitHub profile](https://github.com/AshIntelligence)** · **[Roadmap](docs/PRODUCT_ROADMAP.md)** · **[LinkedIn](https://www.linkedin.com/in/ashb27)**
 
-The collection is organized around three recurring areas:
+The collection is organized around four recurring areas:
 
 | Area | Focus |
 |---|---|
+| **ORCHESTRATE** | Cross-domain context, prioritization, autonomy policy, approvals and follow-up |
 | **CONTROL** | Autonomy, permissions, approvals, orchestration and rollout |
 | **EVALUATE** | Quality, grounding, adoption, reliability, experiments and product health |
 | **DECIDE** | Risk, fintech, ranking, incidents and policy tradeoffs |
@@ -18,7 +19,15 @@ Every project is small enough to trace **input → decision → output** without
 
 ---
 
-## Start with the three flagships
+## Start with the four flagships
+
+### ORCHESTRATE · Ash OS — Personal Control Plane
+
+A persistent-assistant product concept that sits above inbox, calendar, money, career and travel. It asks four practical questions: **what changed, what matters, what can the system handle, and what still needs Ash?**
+
+The public demo routes synthetic signals to **HANDLE / DRAFT / ASK ASH / WATCH** using confidence, sensitivity, reversibility, spend and external-commitment policy. High model confidence never automatically grants execution authority.
+
+**[▶ Try live](https://ash-intelligence-lab.streamlit.app/Ash_OS)** · **[Source](pages/1_Ash_OS.py)** · **[Architecture note](docs/PERSONAL_CONTROL_PLANE.md)**
 
 ### CONTROL · Agent Control Plane
 
@@ -45,6 +54,12 @@ Turns behavioral, payment and identity signals into explainable **ALLOW / REVIEW
 **[▶ Try live](https://ash-intelligence-lab.streamlit.app/?product=fraud-signal-decision-engine)** · **[Standalone repo](https://github.com/AshIntelligence/risk-decision-system)** · **[Lab source](projects/fraud-signal-decision-engine/)**
 
 ---
+
+## ORCHESTRATE
+
+| System | What it does |
+|---|---|
+| **[Ash OS · Personal Control Plane](pages/1_Ash_OS.py)** | Prioritizes synthetic signals across inbox, calendar, money, career and travel, then routes them to HANDLE, DRAFT, ASK ASH or WATCH through explicit autonomy and approval policy. |
 
 ## CONTROL
 
@@ -100,7 +115,7 @@ The code is there to pressure-test the parts of a product decision that are easy
 - what happens when confidence is low or a dependency fails
 - whether another person can trace why the system produced the result
 
-The aim is simple: build enough of the mechanism to challenge the assumption.
+The aim is simple: build enough of the product to challenge the assumption.
 
 ## Run locally
 
@@ -122,11 +137,12 @@ python projects/mautam-evaluation/main.py
 python projects/mautam-evaluation/main.py --test
 ```
 
-The Streamlit layer calls the original engines under `projects/`; it does not duplicate their decision logic.
+The main Streamlit hub calls the original engines under `projects/`; Ash OS is a separate multipage product prototype in `pages/`.
 
 ## Repository map
 
 - `projects/` — 20 compact decision systems
+- `pages/1_Ash_OS.py` — Personal Control Plane / persistent-assistant prototype
 - `streamlit_app.py` — interactive demo hub
 - `ui/` — adapters, scenarios and input guidance
 - `agents/` — grounded document, job-research and product-design agents
